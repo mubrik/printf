@@ -2,9 +2,12 @@
 #define MAIN_H
 #include <stdlib.h>
 #include <stdio.h>
+#include <stdarg.h>
 
 int _putchar(char c);
 int _printf(const char *format, ...);
+int _printstr(va_list arg_list, int *count);
+int _printchar(va_list arg_list, int *count);
 /**
  * type_to_func - this holds a char ptr and func ptr
  * @op_type: operation type/name
@@ -12,8 +15,8 @@ int _printf(const char *format, ...);
  */
 struct type_to_func
 {
-  char *op_type;
-  void (*op_func)(char *src_ptr);
+	char *op_type;
+	int (*op_func)(va_list arg_list, int *count);
 };
 
 #endif /* MAIN_H */

@@ -1,3 +1,4 @@
-test.c
 .vscode
-_putchar.c
+#test.c
+#_putchar.c
+runtest

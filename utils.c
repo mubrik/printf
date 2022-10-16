@@ -39,12 +39,7 @@ int is_format_spec(const char *src_ptr, char *curr_spec)
 int (*get_format_handler(char *spec))(va_list arg_list, char *, char, char *)
 {
 	int index;
-	/**
-	 * struct type_to_func - this holds a char ptr and func ptr
-	 * @op_type: operation type/name
-	 * @op_func: ptr to func of operation
-	 */
-	struct type_to_func type_list[] = {
+	type_to_func_t type_list[] = {
 		{"c", handle_char_format}, {"d", handle_float_format},
 		{"s", handle_str_format}, {"f", handle_float_format},
 		{"i", handle_int_format}, {"%", handle_percent_format}

@@ -24,11 +24,11 @@ int _printf(const char *format, ...);
  * @op_type: operation type/name
  * @op_func: ptr to func of operation
  */
-struct type_to_func
+typedef struct type_to_func
 {
 	char *op_type;
 	int (*op_func)(va_list arg_list, char *buffer, char buffer_i, char *flags);
-};
+} type_to_func_t;
 
 
 #endif /* MAIN_H */

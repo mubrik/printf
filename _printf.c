@@ -1,121 +1,51 @@
 #include "main.h"
 
 /**
- * is_format_spec: check if the ptr is a format specification, basic check
- * @src_ptr: src char ptr
- * @curr_spec: ptr to format specification
- * Return: 1 if it is, 0 if not
- */
-int is_format_spec(const char *src_ptr, char *curr_spec)
-{
-	/* all spec "cdefgiosux%" */
-	char *spec_arr = "cs%";
-	/* base check */
-	if (*src_ptr != '%')
-		return (0);
-
-	/* iterate */
-	while (*spec_arr != '\0')
-	{
-		/* checking the next value is a spec */
-		if (*spec_arr == *(src_ptr + 1))
-		{
-			/* set spec */
-			*curr_spec = *spec_arr;
-			return (1);
-		}
-		spec_arr++;
-	}
-
-	return (0);
-
-}
-
-/**
- * get_format_printer: gets the function used to print a specific format
- * @spec: the format spec
- * Return: 1 if it is, 0 if not
- */
-int (*get_format_printer(char *spec))(va_list arg_list, int *count)
-{
-	int index;
-	/* struct list of format spec to functions */
-	struct type_to_func type_list[] = {
-		{"c", _printchar},
-		{"s", _printstr},
-	};
-	/* iterate */
-	for (index = 0; index < 2; index++)
-	{
-		/* if spec matches */
-		if (*(type_list[index].op_type) == *spec)
-		{
-			return (type_list[index].op_func);
-		}
-	}
-
-	return (NULL);
-}
-
-/**
- * _printf: does printf stuff
- * @format: stirng format of string
+ * _printf - formatted output conversion and print data.
+ * @format: input string.
+ *
+ * Return: number of chars printed.
  */
 int _printf(const char *format, ...)
 {
-	int *count, (*print_func)(va_list, int *);
-	char *format_ptr, *curr_spec;
-	va_list arg_list;
-	/* base check */
-	if (format == NULL)
-		return (-1);
-	format_ptr = (char *) format; /* copying & casting ptr to elim const */
+	unsigned int i = 0, len = 0, ibuf = 0;
+	va_list arguments;
+	int (*function)(va_list, char *, unsigned int);
+	char *buffer;
 
-	/* alloc space for char spec */
-	curr_spec = malloc(sizeof(char));
-	count = malloc(sizeof(int));
-	/* check */
-	if (curr_spec == NULL || count == NULL)
+	va_start(arguments, format), buffer = malloc(sizeof(char) * 1024);
+	if (!format || !buffer || (format[i] == '%' && !format[i + 1]))
 		return (-1);
-
-	*count = 0;
-	/* init varaidic args */
-	va_start(arg_list, format);
-	/* main while loop to iterate over str ptr */
-	while (*format_ptr != '\0')
+	if (!format[i])
+		return (0);
+	for (i = 0; format && format[i]; i++)
 	{
-		/* check and set format spec */
-		if (is_format_spec(format_ptr, curr_spec))
+		if (format[i] == '%')
 		{
-			if (*curr_spec == '%')
-			{
-				/* percent, print single % */
-				_putchar('%');
-				++*count;
-				/* dumb pushhing for now!, by 2 */
-				format_ptr = format_ptr + 2;
-				continue;
+			if (format[i + 1] == '\0')
+			{	print_buf(buffer, ibuf), free(buffer), va_end(arguments);
+				return (-1);
 			}
-			/* not % needs proper handle, get func */
-			print_func = get_format_printer(curr_spec);
-			/* check */
-			if (print_func == NULL)
-			{
-				format_ptr++; /* should not be, but incaase for now */
-				continue;
-			}
-			/* print & incr count */
-			print_func(arg_list, count);
-			/* dumb pushhing for now!, by 2 */
-			format_ptr = format_ptr + 2;
-			continue;
+			else
+			{	function = get_print_func(format, i + 1);
+				if (function == NULL)
+				{
+					if (format[i + 1] == ' ' && !format[i + 2])
+						return (-1);
+					handle_buf(buffer, format[i], ibuf), len++, i--;
+				}
+				else
+				{
+					len += function(arguments, buffer, ibuf);
+					i += ev_print_func(format, i + 1);
+				}
+			} i++;
 		}
-
-		_putchar(*format_ptr); /* directly printing for now! basic */
-		++*count;
-		format_ptr++; /* pushptr */
+		else
+			handle_buf(buffer, format[i], ibuf), len++;
+		for (ibuf = len; ibuf > 1024; ibuf -= 1024)
+			;
 	}
-
-
-	return (*count);
+	print_buf(buffer, ibuf), free(buffer), va_end(arguments);
+	return (len);
 }

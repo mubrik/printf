@@ -1,26 +1,26 @@
 #include "main.h"
 
 /**
- * _printstr: prints a string of chars
- * @src_ptr: src char ptr
- * @count: ptr to count of print
- * Return: 1 if it is, 0 if not
+ * _printstr - writes the string to stdout
+ * @args: input string
+ * @buffer: buffer pointer
+ * @buffer_index: index for buffer pointer
+ * Return: On success 1.
  */
-int _printstr(va_list arg_list, int *count)
+int _printstr(va_list args, char *buffer, unsigned int buffer_index)
 {
-	char *src_ptr;
+	char *str;
+	unsigned int i;
+	char nill[] = "(null)";
 
-	/* get argument from list */
-	src_ptr = va_arg(arg_list, char *);
-
-	while (*src_ptr != '\0')
+	str = va_arg(args, char *);
+	if (str == NULL)
 	{
-		/* print */
-		_putchar(*src_ptr);
-		/* incr count and src ptr*/
-		++*count;
-		++src_ptr;
+		for (i = 0; nill[i]; i++)
+			buffer_index = handle_buf(buffer, nill[i], buffer_index);
+		return (6);
 	}
-
-	return (0);
+	for (i = 0; str[i]; i++)
+		buffer_index = handle_buf(buffer, str[i], buffer_index);
+	return (i);
 }

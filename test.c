@@ -12,6 +12,7 @@ int main(void)
 	int len;
 	int len2;
 
+
 	_printf("Let's try to printf a simple sentence.\n");
 	printf("Let's try to printf a simple sentence.\n");
 	_printf("Sub Characters %c %c %c\n", 'a', 'b', 'c');

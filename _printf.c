@@ -9,7 +9,7 @@
 int is_format_spec(const char *src_ptr, char *curr_spec)
 {
 	/* all spec "cdefgiosux%" */
-	char *spec_arr = "cs%";
+	char *spec_arr = "cdsfi%";
 	/* base check */
 	if (*src_ptr != '%')
 		return (0);
@@ -43,9 +43,12 @@ int (*get_format_printer(char *spec))(va_list arg_list, int *count)
 	struct type_to_func type_list[] = {
 		{"c", _printchar},
 		{"s", _printstr},
+		{"d", _printfloat},
+		{"f", _printfloat},
+		{"i", _printnumber}
 	};
 	/* iterate */
-	for (index = 0; index < 2; index++)
+	for (index = 0; index < (int) sizeof(type_list); index++)
 	{
 		/* if spec matches */
 		if (*(type_list[index].op_type) == *spec)
@@ -101,6 +104,7 @@ int _printf(const char *format, ...)
 			/* check */
 			if (print_func == NULL)
 			{
+				printf("yeah null");
 				format_ptr++; /* should not be, but incaase for now */
 				continue;
 			}

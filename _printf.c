@@ -1,125 +1,50 @@
 #include "main.h"
 
 /**
- * is_format_spec: check if the ptr is a format specification, basic check
- * @src_ptr: src char ptr
- * @curr_spec: ptr to format specification
- * Return: 1 if it is, 0 if not
- */
-int is_format_spec(const char *src_ptr, char *curr_spec)
-{
-	/* all spec "cdefgiosux%" */
-	char *spec_arr = "cdsfi%";
-	/* base check */
-	if (*src_ptr != '%')
-		return (0);
-
-	/* iterate */
-	while (*spec_arr != '\0')
-	{
-		/* checking the next value is a spec */
-		if (*spec_arr == *(src_ptr + 1))
-		{
-			/* set spec */
-			*curr_spec = *spec_arr;
-			return (1);
-		}
-		spec_arr++;
-	}
-
-	return (0);
-
-}
-
-/**
- * get_format_printer: gets the function used to print a specific format
- * @spec: the format spec
- * Return: 1 if it is, 0 if not
- */
-int (*get_format_printer(char *spec))(va_list arg_list, int *count)
-{
-	int index;
-	/* struct list of format spec to functions */
-	struct type_to_func type_list[] = {
-		{"c", _printchar},
-		{"s", _printstr},
-		{"d", _printfloat},
-		{"f", _printfloat},
-		{"i", _printnumber}
-	};
-	/* iterate */
-	for (index = 0; index < (int) sizeof(type_list); index++)
-	{
-		/* if spec matches */
-		if (*(type_list[index].op_type) == *spec)
-		{
-			return (type_list[index].op_func);
-		}
-	}
-
-	return (NULL);
-}
-
-/**
- * _printf: does printf stuff
+ * _printf - does printf stuff
  * @format: stirng format of string
+ * Return: number of bytes printed or -1 for fail
  */
 int _printf(const char *format, ...)
 {
-	int *count, (*print_func)(va_list, int *);
-	char *format_ptr, *curr_spec;
+	int count = 0, buffer_i = 0, index = 0;
+	int (*format_buff_handler)(va_list arg_list, char *, char, char *);
+	char *buffer, *flags, *curr_spec;
 	va_list arg_list;
 	/* base check */
 	if (format == NULL)
 		return (-1);
-	format_ptr = (char *) format; /* copying & casting ptr to elim const */
-
-	/* alloc space for char spec */
-	curr_spec = malloc(sizeof(char));
-	count = malloc(sizeof(int));
-	/* check */
-	if (curr_spec == NULL || count == NULL)
+	/* allocate buffer space */
+	buffer = malloc(sizeof(char) * BUFFER_SIZE), flags = malloc(sizeof(char) * 4);
+	curr_spec = malloc(sizeof(char) + 1);
+	if (buffer == NULL)
 		return (-1);
-
-	*count = 0;
-	/* init varaidic args */
-	va_start(arg_list, format);
-	/* main while loop to iterate over str ptr */
-	while (*format_ptr != '\0')
+	va_start(arg_list, format); /* init varaidic args */
+	/* main loop */
+	for (index = 0; format[index] != '\0'; index++)
 	{
-		/* check and set format spec */
-		if (is_format_spec(format_ptr, curr_spec))
+		if (is_format_spec(&format[index], curr_spec))
 		{
-			if (*curr_spec == '%')
-			{
-				/* percent, print single % */
-				_putchar('%');
-				++*count;
-				/* dumb pushhing for now!, by 2 */
-				format_ptr = format_ptr + 2;
-				continue;
-			}
-			/* not % needs proper handle, get func */
-			print_func = get_format_printer(curr_spec);
+			/* get handler */
+			format_buff_handler = get_format_handler(curr_spec);
 			/* check */
-			if (print_func == NULL)
+			if (format_buff_handler == NULL)
 			{
-				printf("yeah null");
-				format_ptr++; /* should not be, but incaase for now */
+				printf("yeah null"), count++;
 				continue;
 			}
-			/* print & incr count */
-			print_func(arg_list, count);
-			/* dumb pushhing for now!, by 2 */
-			format_ptr = format_ptr + 2;
-			continue;
+			count += format_buff_handler(arg_list, buffer, buffer_i, flags), index++;
 		}
-
-		_putchar(*format_ptr); /* directly printing for now! basic */
-		++*count;
-		format_ptr++; /* pushptr */
+		else
+		{
+			/* add directly to buff */
+			add_to_buffer(format[index], buffer, buffer_i), count++;
+		}
+		buffer_i = count; /* refresh buffer, but within limits */
+		while (buffer_i > BUFFER_SIZE)
+			buffer_i -= BUFFER_SIZE;
 	}
-
-
-	return (*count);
+	/* PRINT BUFFER */
+	print_buffer(buffer, buffer_i), free(buffer), va_end(arg_list);
+	return (count);
 }

@@ -1,45 +1,49 @@
 #include "main.h"
 
 /**
- * _printint_rec: recursive func to print
- * @num: src char ptr
- * @count: ptr to count of print
- * Return: 1 if it is, 0 if not
- * Description: works recursively, wont print until last digit which becomes first
+ * add_int_buff - recursive add number to buffer
+ * @num: integer to add
+ * @buffer: the ptr to a buffer
+ * @buffer_i: index of buffer
+ * Description: works recursively, wont print until last digit which becomes
+ * Return: count of bytes added to buffer
  */
-void _printint_rec(int num, int *count)
+int add_int_buff(int num, char *buffer, char buffer_i)
 {
 	if (num > 9)
 	{
 		/* divide by 10 */
-		_printint_rec(num / 10, count);
+		return (1 + add_int_buff((num / 10), buffer, (buffer_i + 1)));
 	}
 	/* print reminder, which wil be the last number */
-	_putchar((num % 10) + '0');
-	++*count;
+	add_to_buffer(((num % 10) + '0'), buffer, buffer_i);
+	return (1);
 }
 
 /**
- * _printnumber: prints numbers/integers
- * @src_ptr: src char ptr
- * @count: ptr to count of print
- * Return: 1 if it is, 0 if not
+ * handle_int_format - adds numbers of type long int to the buffer
+ * @arg_list: args list
+ * @buffer: the ptr to a buffer
+ * @buffer_i: index of buffer
+ * @flags: flags to modify behaviour
+ * Return: number of integers added
  */
-int _printnumber(va_list arg_list, int *count)
+int handle_int_format(va_list arg_list, char *buffer,
+	char buffer_i, __attribute__((unused)) char *flags)
 {
-	int src_nmbr;
+	int number, count = 0;
 
 	/* get argument from list */
-	src_nmbr = va_arg(arg_list, int);
-	/* if negative */
-	if (src_nmbr < 0)
+	number = va_arg(arg_list, int);
+	/* neg number */
+	if (number < 0)
 	{
-		_putchar('-');
-		++*count;
-		src_nmbr *= -1; /* make absolute */
+		buffer_i = add_to_buffer('-', buffer, buffer_i), count++;
+		number *= -1; /* make absolute */
 	}
-	/* print recursively */
-	_printint_rec(src_nmbr, count);
+	/* work recursively */
+	count += add_int_buff(number, buffer, buffer_i);
 
-	return (0);
+	return (count);
+
 }

@@ -1,20 +1,21 @@
 #include "main.h"
 
 /**
- * _printchar: prints a single character
+ * handle_char_format - adds a single char to the buffer
  * @arg_list: args list
- * @count: ptr to count of print
- * Return: 1 if it is, 0 if not
+ * @buffer: the ptr to a buffer
+ * @buffer_i: index of buffer
+ * @flags: flags to modify behaviour
+ * Return: 1, single character added
  */
-int _printchar(va_list arg_list, int *count)
+int handle_char_format(va_list arg_list, char *buffer,
+	char buffer_i, __attribute__((unused)) char *flags)
 {
 	int str;
-	/* get arg from list */
+	/* get str from list */
 	str = va_arg(arg_list, int);
+	/* beffer */
+	add_to_buffer(str, buffer, buffer_i);
 
-	_putchar(str);
-	/* incr count */
-	++*count;
-
-	return (0);
+	return (1);
 }

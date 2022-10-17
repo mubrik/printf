@@ -81,4 +81,3 @@ int cp_to_flag_buffer(const char *src_ptr, int byte_c, char *flags_buffer)
 
 	return (count);
 }
-

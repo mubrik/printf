@@ -10,14 +10,19 @@
  */
 int add_int_buff(int num, char *buffer, char buffer_i)
 {
-	if (num > 9)
+	int count = 0;
+	unsigned int div_by;
+
+	div_by = 1;
+	while ((num / div_by) > 9)
+		div_by *= 10;
+	while (div_by > 0)
 	{
-		/* divide by 10 */
-		return (1 + add_int_buff((num / 10), buffer, (buffer_i + 1)));
+		buffer_i = add_to_buffer(((num / div_by) % 10) + '0', buffer, buffer_i);
+		count++, div_by /= 10;
 	}
-	/* print reminder, which wil be the last number */
-	add_to_buffer(((num % 10) + '0'), buffer, buffer_i);
-	return (1);
+
+	return (count);
 }
 
 /**
@@ -41,9 +46,8 @@ int handle_int_format(va_list arg_list, char *buffer,
 		buffer_i = add_to_buffer('-', buffer, buffer_i), count++;
 		number *= -1; /* make absolute */
 	}
-	/* work recursively */
-	count += add_int_buff(number, buffer, buffer_i);
 
+	count += add_int_buff(number, buffer, buffer_i);
 	return (count);
 
 }

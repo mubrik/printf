@@ -5,8 +5,7 @@
  * @spec: the format spec
  * Return: 1 if it is, 0 if not
  */
-int (*get_format_handler(char *spec))(va_list arg_list, char *,
-	char , Format_flag_t *flags)
+int (*get_format_handler(char *spec))(va_list, char *, char, Format_flag_t *)
 {
 	int index;
 	type_to_func_t type_list[] = {

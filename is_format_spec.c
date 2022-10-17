@@ -21,9 +21,6 @@ int _is_flag_character(char c)
 {
 	if (c == ' ' || c == '+' || c == '-' || c == '#' || c == '0')
 		return (1);
-		/* handle number seperatelt for now */
-	/* if (_is_number(c))
-		return (1); */
 	return (0);
 }
 

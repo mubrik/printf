@@ -5,7 +5,7 @@
  * _allocate_buff_mem - reducing lines in main func,
  * moving malloc and check here
  * @p_buff: ptr to ptr of main print buffer
- * @f_buff: ptr to ptr ofmain flag buffer
+ * @flags: ptr to ptr of main flag strut
  * @s_buff: ptr to ptr of format specification buffer
  * Return: 0 on success, 1 on failure
  */
@@ -83,9 +83,8 @@ int _printf(const char *format, ...)
 				continue;
 			}
 			count += spec_handler(arg_list, pr_buff, buffer_i, format_flags);
-			index += is_spec;
 			/* reset flags */
-			reset_format_flag(format_flags);
+			reset_format_flag(format_flags), index += is_spec;
 		}
 		else
 		{

@@ -11,7 +11,8 @@ int (*get_format_handler(char *spec))(va_list, char *, char, Format_flag_t *)
 	type_to_func_t type_list[] = {
 		{"c", handle_char_format}, {"d", handle_int_format},
 		{"s", handle_str_format}, {"f", handle_float_format},
-		{"i", handle_int_format}, {"%", handle_percent_format}
+		{"i", handle_int_format}, {"%", handle_percent_format},
+		{"b", handle_bin_format},
 	};
 	/* iterate */
 	for (index = 0; index < (int) sizeof(type_list); index++)

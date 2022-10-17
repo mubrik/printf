@@ -8,7 +8,7 @@
  * Description: works recursively, wont print until last digit which becomes
  * Return: count of bytes added to buffer
  */
-int add_int_buff(int num, char *buffer, char buffer_i)
+int add_int_buff(unsigned int num, char *buffer, char buffer_i)
 {
 	int count = 0;
 	unsigned int div_by;

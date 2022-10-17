@@ -31,8 +31,8 @@ int _is_flag_character(char c)
  */
 int _is_format_spec_char(char c)
 {
-	/* all spec "cdefgiosux%" */
-	char *spec_arr = "cdsfi%";
+	/* all spec "cdefgiosux%" custom: "b" */
+	char *spec_arr = "cdsfi%b";
 
 	/* iterate */
 	while (*spec_arr != '\0')

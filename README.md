@@ -5,6 +5,7 @@
 - Clone this repository and run `cd printf`
 - Compile by running: `gcc -Wall -Wextra -Werror -pedantic -std=gnu89 -Wno-format *.c ./test/*.c -o runtest`
 - Run tests: `./runtest`
+- verify memory leaks: install vagrind and run: `valgrind ./runtest`
 
 ## Changes and Contributions
 

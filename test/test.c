@@ -11,8 +11,8 @@ int main(void)
 {
 	int len, len2, nil, nil2;
 
-	nil = _printf("String:[%s]\n");
-	nil2 = printf("String:[%s]\n");
+	nil = _printf("Character:[%c]\n", NULL);
+	nil2 = printf("Character:[%c]\n", NULL);
 	_printf("Let's try to printf a simple sentence.\n");
 	printf("Let's try to printf a simple sentence.\n");
 	_printf("Character:[%c]\n", 'H');

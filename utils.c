@@ -1,37 +1,6 @@
 #include "main.h"
 
 /**
- * is_format_spec - check if the ptr is a format specification, basic check
- * @src_ptr: src char ptr
- * @curr_spec: ptr to format specification
- * Return: 1 if it is, 0 if not
- */
-int is_format_spec(const char *src_ptr, char *curr_spec)
-{
-	/* all spec "cdefgiosux%" */
-	char *spec_arr = "cdsfi%";
-	/* base check */
-	if (src_ptr[0] != '%')
-		return (0);
-
-	/* iterate */
-	while (*spec_arr != '\0')
-	{
-		/* checking the next value is a spec */
-		if (*spec_arr == src_ptr[1])
-		{
-			/* set spec */
-			*curr_spec = *spec_arr;
-			return (1);
-		}
-		spec_arr++;
-	}
-
-	return (0);
-
-}
-
-/**
  * get_format_handler - gets the function used to print a specific format
  * @spec: the format spec
  * Return: 1 if it is, 0 if not
@@ -66,10 +35,10 @@ int (*get_format_handler(char *spec))(va_list arg_list, char *, char, char *)
  */
 int add_to_buffer(char str, char *buffer, int buffer_i)
 {
-	if (buffer_i > BUFFER_SIZE)
+	if (buffer_i > PRINT_BUFF_SIZE)
 	{
 		/* flush/print out the buffer */
-		print_buffer(buffer, BUFFER_SIZE);
+		print_buffer(buffer, PRINT_BUFF_SIZE);
 		/* set index to start */
 		buffer_i = 0;
 	}
@@ -87,5 +56,29 @@ int add_to_buffer(char str, char *buffer, int buffer_i)
 int print_buffer(char *buffer, int byte_count)
 {
 	return (write(1, buffer, byte_count));
+}
+
+/**
+ * cp_to_flag_buffer - cp bytes specified to a flag buffer
+ * @src_ptr: the character
+ * @byte_c: num of byte to copy
+ * @flags_buffer: the ptr to a buffer
+ * Return: count of bytes added
+ */
+int cp_to_flag_buffer(const char *src_ptr, int byte_c, char *flags_buffer)
+{
+	int count = 0;
+	/* dont exceed buffer */
+	if (byte_c > (FLAG_BUFF_SIZE - 1))
+		return (0);
+	/* copy from src to buffer */
+	for (; count < byte_c; count++)
+	{
+		flags_buffer[count] = src_ptr[count];
+	}
+	/* add null byte */
+	flags_buffer[count + 1] = '\0';
+
+	return (count);
 }
 

@@ -9,7 +9,7 @@
  * Return: number of characters added
  */
 int handle_str_format(va_list arg_list, char *buffer,
-	char buffer_i, __attribute__((unused)) char *flags)
+	char buffer_i, __attribute__((unused)) Format_flag_t *flags)
 {
 	char *string_ptr;
 	char *null_str = "(null)"; /* print this if NULL */
@@ -17,27 +17,19 @@ int handle_str_format(va_list arg_list, char *buffer,
 
 	/* get argument from list */
 	string_ptr = va_arg(arg_list, char *);
-	/* need to check if arg doesnt exist, using this for now */
-	if (null_str[0] == '\0')
-		return (count);
 	/* null check */
 	if (!string_ptr)
 	{
 		/* print null */
-		while (null_str[count] != '\0')
+		while (null_str[count])
 		{
 			add_to_buffer(null_str[count], buffer, (buffer_i + count)), count++;
 		}
 		return (count);
 	}
 
-	while (*string_ptr != '\0')
-	{
-		/* add to buffer */
-		add_to_buffer(*string_ptr, buffer, (buffer_i + count)), count++;
-		/* incr count and src ptr*/
-		string_ptr++;
-	}
+	while (string_ptr[count])
+		add_to_buffer(string_ptr[count], buffer, (buffer_i + count)), count++;
 
 	return (count);
 }

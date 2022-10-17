@@ -19,10 +19,11 @@ int _is_number(char c)
  */
 int _is_flag_character(char c)
 {
-	if (c == ' ' || c == '+' || c == '-')
+	if (c == ' ' || c == '+' || c == '-' || c == '#' || c == '0')
 		return (1);
-	if (_is_number(c))
-		return (1);
+		/* handle number seperatelt for now */
+	/* if (_is_number(c))
+		return (1); */
 	return (0);
 }
 
@@ -49,7 +50,7 @@ int _is_format_spec_char(char c)
 }
 
 /**
- * _set_spec_format - sets the character to the spec buffer
+ * _set_spec_format - sets the character to the specification buffer
  * @c: character
  * @s_buff: ptr to format specification buffer
  * Return: 1 if true, 0 else
@@ -73,46 +74,46 @@ int _set_spec_format(char c, char *s_buff)
  * @flags: ptr to flags buffer
  * Return: 1 if it is, 0 if not
  */
-int is_format_spec(const char *src_ptr, char *s_buff, char *flags)
+int is_format_spec(const char *src_ptr, char *s_buff, Format_flag_t *flags)
 {
+	int count;
+
 	/* base check */
 	if (src_ptr[0] != '%')
 		return (0);
-	/* checking the immediate next (1) value is a spec directly */
+		/* checking the immediate next (1) value is a null byte */
+	if (src_ptr[1] == '\0')
+		return (-1); /* invalid */
+	/* checking the immediate next(1) value is a spec directly, no flags: 0(n) */
 	if (_is_format_spec_char(src_ptr[1]))
 	{
 		_set_spec_format(src_ptr[1], s_buff);
 		return (1);
 	}
-	/* checking (2) value is a spec, (1) must be a flag */
-	if (_is_format_spec_char(src_ptr[2]) &&
-		_is_flag_character(src_ptr[1]))
+	count = 1;
+	/* iterate until we find our format spec or nullbyt, assume every flags */
+	/* checking only flags for now */
+	for (; src_ptr[count]; count++)
 	{
-		/* set flag and set spec */
-		cp_to_flag_buffer(&src_ptr[1], 1, flags);
-		_set_spec_format(src_ptr[2], s_buff);
-		return (1);
+		/* checking if a format spec */
+		if (_is_format_spec_char(src_ptr[count]))
+		{
+			_set_spec_format(src_ptr[count], s_buff);
+			return (count);
+		}
+		/* checking if its a flag */
+		else if (_is_flag_character(src_ptr[count]))
+		{/* if not set, set it */
+			if (!is_flag_set(src_ptr[count], flags))
+				set_format_flag(src_ptr[count], flags);
+			continue;
+		}
+		/* not a format spec or flag */
+		else
+		{
+			return (count - 1);
+		}
 	}
-	/* checking (3) value is a spec, (2) must be a number/flag and (1) a flag */
-	if (_is_format_spec_char(src_ptr[3]) &&
-		_is_flag_character(src_ptr[2]) && _is_flag_character(src_ptr[1]))
-	{
-		/* set flag and set spec  */
-		_set_spec_format(src_ptr[3], s_buff);
-		cp_to_flag_buffer(&src_ptr[1], 2, flags);
-		return (1);
-	}
-	/* checking (4) value is a spec, (3-1) must be a number/flag */
-	if (_is_format_spec_char(src_ptr[4]) &&
-		_is_flag_character(src_ptr[3]) && _is_flag_character(src_ptr[2]) &&
-		_is_flag_character(src_ptr[1]))
-	{
-		/* set flag and set spec  */
-		_set_spec_format(src_ptr[4], s_buff);
-		cp_to_flag_buffer(&src_ptr[1], 3, flags);
-		return (1);
-	}
-	/* not a spec, empty string  */
-	_set_spec_format('\0', s_buff);
+	/* string did not end with a spec character */
 	return (0);
 }

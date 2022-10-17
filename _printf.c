@@ -12,11 +12,11 @@
 int _allocate_buff_mem(char **p_buff, char **f_buff, char **s_buff)
 {
 	/* allocate buffer space */
-	printf("print buff befor mem allocated %p\n", *p_buff);
+	/* printf("print buff befor mem allocated %p\n", *p_buff); */
 	*p_buff = malloc(sizeof(char) * PRINT_BUFF_SIZE);
 	*f_buff = malloc(sizeof(char) * FLAG_BUFF_SIZE);
 	*s_buff = malloc(sizeof(char) + 1);
-	printf("print buff after mem allocated %p\n", *p_buff);
+	/* printf("print buff after mem allocated %p\n", *p_buff); */
 	/* check */
 	if (!(*s_buff) || !(*p_buff) || !(*f_buff))
 	{

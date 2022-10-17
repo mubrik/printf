@@ -76,7 +76,7 @@ int _set_spec_format(char c, char *s_buff)
 int is_format_spec(const char *src_ptr, char *s_buff, char *flags)
 {
 	/* base check */
-	if (src_ptr[0] != '%')
+	if (src_ptr[0] != '%' || src_ptr[1] == '\0')
 		return (0);
 	/* checking the immediate next (1) value is a spec directly */
 	if (_is_format_spec_char(src_ptr[1]))

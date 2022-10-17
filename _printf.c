@@ -65,31 +65,31 @@ int _printf(const char *format, ...)
 	/* base check */
 	if (format == NULL)
 		return (-1);
-	/* allocate buffer memory */
 	if (_allocate_buff_mem(&pr_buff, &spec_buff, &format_flags))
-		return (-1);
+		return (-1); /* allocate buffer memory */
 	va_start(arg_list, format); /* init varaidic args */
 	/* main loop */
 	for (index = 0; format[index]; index++)
 	{
 		is_spec = is_format_spec(&format[index], spec_buff, format_flags);
-		/* if an error, break loop and print buffer */
 		if (is_spec < 0)
+		{/* if an error, break loop and print buffer */
+			count = is_spec;
+			break;
+		}
+		else if (is_spec > 0)
 		{
 			spec_handler = get_format_handler(spec_buff); /* get handler */
-			if (spec_handler == NULL) /* check */
+			if (!spec_handler) /* check */
 			{
 				count++;
 				continue;
 			}
 			count += spec_handler(arg_list, pr_buff, buffer_i, format_flags);
-			/* reset flags */
-			reset_format_flag(format_flags), index += is_spec;
+			reset_format_flag(format_flags), index += is_spec;/* reset flags */
 		}
 		else
-		{
 			add_to_buffer(format[index], pr_buff, buffer_i), count++;
-		}
 		buffer_i = count; /* refresh buffer, but within limits */
 		while (buffer_i > PRINT_BUFF_SIZE)
 			buffer_i -= PRINT_BUFF_SIZE;

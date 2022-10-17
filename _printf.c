@@ -12,15 +12,12 @@
 int _allocate_buff_mem(char **p_buff, char **f_buff, char **s_buff)
 {
 	/* allocate buffer space */
-	printf("print buff befor mem allocated %p\n", *p_buff);
 	*p_buff = malloc(sizeof(char) * PRINT_BUFF_SIZE);
 	*f_buff = malloc(sizeof(char) * FLAG_BUFF_SIZE);
 	*s_buff = malloc(sizeof(char) + 1);
-	printf("print buff after mem allocated %p\n", *p_buff);
 	/* check */
 	if (!(*s_buff) || !(*p_buff) || !(*f_buff))
 	{
-		printf("mem unallocated");
 		return (1);
 	}
 	return (0);
@@ -75,7 +72,7 @@ int _printf(const char *format, ...)
 			format_buff_handler = get_format_handler(spec_buff); /* get handler */
 			if (format_buff_handler == NULL) /* check */
 			{
-				printf("why null"), count++;
+				count++;
 				continue;
 			}
 			count += format_buff_handler(arg_list, pr_buff, buffer_i, flags_buff);

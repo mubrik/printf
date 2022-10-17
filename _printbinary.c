@@ -28,21 +28,32 @@ int handle_bin_format(va_list arg_list, char *buffer,
 	char buffer_i, __attribute__((unused)) Format_flag_t *flags)
 {
 	unsigned int num, count = 0, bytes;
-	char *bin_buffer;
+	char *bin_buffer, *cp_buff;
 	/* get num from list */
 	num = va_arg(arg_list, int);
+	/* base check */
+	if (!num)
+	{
+		add_to_buffer('0', buffer, buffer_i);
+		return (1);
+	}
 	bytes = (num < 1025) ? 8 : (num < 65536) ? 16 : 32;
 	/* maloc */
 	bin_buffer = malloc((sizeof(char) * bytes) + 1);
 	if (!bin_buffer)
 		return (0);
 	_int_to_bin_buff(num, bin_buffer, bytes);
-	/* buffer, strat from 1 excluding first 0 of binary */
-	while (bin_buffer[count + 1])
+	/* push buffer ptr until we hit the fisrt 1 */
+	cp_buff = bin_buffer;
+	while (*bin_buffer == '0')
+		bin_buffer++;
+	/* buffer, strat from 1 excluding first zeros of binary */
+	while (bin_buffer[count])
 	{
-		buffer_i = add_to_buffer((bin_buffer[count + 1]), buffer, buffer_i);
+		buffer_i = add_to_buffer((bin_buffer[count]), buffer, buffer_i);
 		count++;
 	}
-
+	/* free buffer */
+	free(cp_buff);
 	return (count);
 }

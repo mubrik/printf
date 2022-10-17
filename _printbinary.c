@@ -37,10 +37,10 @@ int handle_bin_format(va_list arg_list, char *buffer,
 	if (!bin_buffer)
 		return (0);
 	_int_to_bin_buff(num, bin_buffer, bytes);
-	/* buffer */
-	while (bin_buffer[count])
+	/* buffer, strat from 1 excluding first 0 of binary */
+	while (bin_buffer[count + 1])
 	{
-		buffer_i = add_to_buffer((bin_buffer[count]), buffer, buffer_i);
+		buffer_i = add_to_buffer((bin_buffer[count + 1]), buffer, buffer_i);
 		count++;
 	}
 

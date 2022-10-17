@@ -18,5 +18,9 @@ int main(void)
 	printf("Testing Correct Input INT_MAX %u: \n", INT_MAX);
 	len = _printf("INT_MAX:[%b] & [%b]\n", INT_MAX, INT_MAX);
 	printf("Length my printf: %d\n", len);
+	/* null */
+	printf("Testing NULL: \n");
+	len = _printf("INT_MAX:[%b] & [%b]\n", NULL, NULL);
+	printf("Length my printf: %d\n", len);
 	return (0);
 }

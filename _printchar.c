@@ -9,7 +9,7 @@
  * Return: 1, single character added
  */
 int handle_char_format(va_list arg_list, char *buffer,
-	char buffer_i, __attribute__((unused)) char *flags)
+	char buffer_i, __attribute__((unused)) Format_flag_t *flags)
 {
 	int str;
 	/* get str from list */

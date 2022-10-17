@@ -29,7 +29,7 @@ int add_int_buff(int num, char *buffer, char buffer_i)
  * Return: number of integers added
  */
 int handle_int_format(va_list arg_list, char *buffer,
-	char buffer_i, __attribute__((unused)) char *flags)
+	char buffer_i, __attribute__((unused)) Format_flag_t *flags)
 {
 	int number, count = 0;
 

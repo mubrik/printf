@@ -9,7 +9,7 @@
  * Return: 1
  */
 int handle_percent_format(__attribute__((unused)) va_list arg_list,
-	char *buffer, char buffer_i, __attribute__((unused)) char *flags)
+	char *buffer, char buffer_i, __attribute__((unused)) Format_flag_t *flags)
 {
 	/* beffer */
 	add_to_buffer('%', buffer, buffer_i);

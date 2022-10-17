@@ -5,11 +5,12 @@
  * @spec: the format spec
  * Return: 1 if it is, 0 if not
  */
-int (*get_format_handler(char *spec))(va_list arg_list, char *, char, char *)
+int (*get_format_handler(char *spec))(va_list arg_list, char *,
+	char , Format_flag_t *flags)
 {
 	int index;
 	type_to_func_t type_list[] = {
-		{"c", handle_char_format}, {"d", handle_float_format},
+		{"c", handle_char_format}, {"d", handle_int_format},
 		{"s", handle_str_format}, {"f", handle_float_format},
 		{"i", handle_int_format}, {"%", handle_percent_format}
 	};

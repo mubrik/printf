@@ -9,20 +9,24 @@
  * @s_buff: ptr to ptr of format specification buffer
  * Return: 0 on success, 1 on failure
  */
-int _allocate_buff_mem(char **p_buff, char **f_buff, char **s_buff)
+int _allocate_buff_mem(char **p_buff, char **s_buff, Format_flag_t **flags)
 {
 	/* allocate buffer space */
 	/* printf("print buff befor mem allocated %p\n", *p_buff); */
 	*p_buff = malloc(sizeof(char) * PRINT_BUFF_SIZE);
-	*f_buff = malloc(sizeof(char) * FLAG_BUFF_SIZE);
 	*s_buff = malloc(sizeof(char) + 1);
+	*flags = malloc(sizeof(Format_flag_t));
 	/* printf("print buff after mem allocated %p\n", *p_buff); */
 	/* check */
-	if (!(*s_buff) || !(*p_buff) || !(*f_buff))
+	if (!(*s_buff) || !(*p_buff) || !(*flags))
 	{
-		printf("mem unallocated");
+		printf("alloc failed");
 		return (1);
 	}
+	/* set flags/attribs */
+	(*flags)->minus = 0, (*flags)->zero = 0;
+	(*flags)->plus = 0, (*flags)->space = 0, (*flags)->pound = 0;
+
 	return (0);
 }
 
@@ -56,30 +60,41 @@ int _free_buff_mem(int num, ...)
  */
 int _printf(const char *format, ...)
 {
-	int count = 0, buffer_i = 0, index = 0;
-	char *pr_buff = NULL, *flags_buff = NULL, *spec_buff = NULL;
-	int (*format_buff_handler)(va_list arg_list, char *, char, char *);
+	int count = 0, buffer_i = 0, index = 0, is_spec;
+	char *pr_buff = NULL, *spec_buff = NULL;
+	Format_flag_t *format_flags = NULL;
+	int (*spec_handler)(va_list arg_list, char *, char, Format_flag_t *);
 	va_list arg_list;
 	/* base check */
 	if (format == NULL)
 		return (-1);
 	/* allocate buffer memory */
-	if (_allocate_buff_mem(&pr_buff, &flags_buff, &spec_buff))
+	if (_allocate_buff_mem(&pr_buff, &spec_buff, &format_flags))
 		return (-1);
 	va_start(arg_list, format); /* init varaidic args */
 	/* main loop */
-	for (index = 0; format[index] != '\0'; index++)
+	for (index = 0; format[index]; index++)
 	{
-		if (is_format_spec(&format[index], spec_buff, flags_buff))
+		is_spec = is_format_spec(&format[index], spec_buff, format_flags);
+		/* if an error, break loop and print buffer */
+		if (is_spec < 0)
 		{
-			format_buff_handler = get_format_handler(spec_buff); /* get handler */
-			if (format_buff_handler == NULL) /* check */
+			count = is_spec;
+			break;
+		}
+		/* if valid format spec */
+		else if (is_spec > 0)
+		{
+			spec_handler = get_format_handler(spec_buff); /* get handler */
+			if (!spec_handler) /* check */
 			{
 				printf("why null"), count++;
 				continue;
 			}
-			count += format_buff_handler(arg_list, pr_buff, buffer_i, flags_buff);
-			index++;
+			count += spec_handler(arg_list, pr_buff, buffer_i, format_flags);
+			index += is_spec;
+			/* reset flags */
+			reset_format_flag(format_flags);
 		}
 		else
 		{
@@ -90,6 +105,6 @@ int _printf(const char *format, ...)
 			buffer_i -= PRINT_BUFF_SIZE;
 	}
 	print_buffer(pr_buff, buffer_i);
-	_free_buff_mem(3, pr_buff, flags_buff, spec_buff), va_end(arg_list);
+	_free_buff_mem(3, pr_buff, format_flags, spec_buff), va_end(arg_list);
 	return (count);
 }

@@ -35,6 +35,16 @@ int main(void)
 	len = _printf("String:[%s]\n", "Ghh");
 	len2 = printf("String:[%s]\n", "Ghh");
 	printf("Length my printf: %d, Length orig printf: %d\n", len, len2);
+	/* input is string "Ghh", percentage at end */
+	_printf("Testing percentage at end of str: \n");
+	len = _printf("String:[%s]%\n", "Ghh");
+	len2 = printf("String:[%s]%\n", "Ghh");
+	printf("Length my printf: %d, Length orig printf: %d\n", len, len2);
+	/* input is string "Ghh", unknown flag */
+	_printf("Testing unknown flag: \n");
+	len = _printf("Unknown:[%r]\n", "Ghh");
+	len2 = printf("Unknown:[%r]\n", "Ghh");
+	printf("Length my printf: %d, Length orig printf: %d\n", len, len2);
 	/* input is number 123434, THIS CAUSES SEG DUMP FOR BOTH! */
 	_printf("Testing input is number 123434: \n");
 	/* len = _printf("String:[%s]\n", 123434); */

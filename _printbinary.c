@@ -37,7 +37,7 @@ int handle_bin_format(va_list arg_list, char *buffer,
 		add_to_buffer('0', buffer, buffer_i);
 		return (1);
 	}
-	bytes = (num < 1025) ? 8 : (num < 65536) ? 16 : 32;
+	bytes = 32;
 	/* maloc */
 	bin_buffer = malloc((sizeof(char) * bytes) + 1);
 	if (!bin_buffer)

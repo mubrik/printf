@@ -19,7 +19,7 @@ int handle_str_format(va_list arg_list, char *buffer,
 	string_ptr = va_arg(arg_list, char *);
 	/* need to check if arg doesnt exist, using this for now */
 	if (null_str[0] == '\0')
-		return (count);
+		return (count + 1);
 	/* null check */
 	if (!string_ptr)
 	{
@@ -31,12 +31,10 @@ int handle_str_format(va_list arg_list, char *buffer,
 		return (count);
 	}
 
-	while (*string_ptr != '\0')
+	for (count = 0; string_ptr[count]; count++)
 	{
-		/* add to buffer */
-		add_to_buffer(*string_ptr, buffer, (buffer_i + count)), count++;
-		/* incr count and src ptr*/
-		string_ptr++;
+		printf("count %d", count);
+		add_to_buffer(string_ptr[count], buffer, (buffer_i + count));
 	}
 
 	return (count);

@@ -20,12 +20,12 @@ void _int_to_bin_buff(unsigned int integer, char *bin_b, int num)
  * handle_bin_format - adds a binary to the buffer
  * @arg_list: args list
  * @buffer: the ptr to a buffer
- * @buffer_i: index of buffer
+ * @buffer_i: ptr to index of buffer
  * @flags: flags to modify behaviour
  * Return: count of chars added
  */
 int handle_bin_format(va_list arg_list, char *buffer,
-	int buffer_i, __attribute__((unused)) Format_flag_t *flags)
+	int *buffer_i, __attribute__((unused)) Format_flag_t *flags)
 {
 	unsigned int num, count = 0, bytes;
 	char *bin_buffer, *cp_buff;
@@ -50,7 +50,7 @@ int handle_bin_format(va_list arg_list, char *buffer,
 	/* buffer, strat from 1 excluding first zeros of binary */
 	while (bin_buffer[count])
 	{
-		buffer_i = add_to_buffer((bin_buffer[count]), buffer, buffer_i);
+		add_to_buffer((bin_buffer[count]), buffer, buffer_i);
 		count++;
 	}
 	/* free buffer */

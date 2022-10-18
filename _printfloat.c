@@ -4,12 +4,12 @@
  * handle_float_format - add float bytes to a buffer
  * @arg_list: args list
  * @buffer: the ptr to a buffer
- * @buffer_i: index of buffer
+ * @buffer_i: ptr to index of buffer
  * @flags: flags to modify behaviour
  * Return: number of bytes added
  */
 int handle_float_format(va_list arg_list, char *buffer,
-	int buffer_i, __attribute__((unused)) Format_flag_t *flags)
+	int *buffer_i, __attribute__((unused)) Format_flag_t *flags)
 {
 	/* float is promoted to double using va_arg */
 	double src_float, dec_part;
@@ -20,15 +20,15 @@ int handle_float_format(va_list arg_list, char *buffer,
 	/* if neg */
 	if (src_float < 0)
 	{
-		buffer_i = add_to_buffer('-', buffer, buffer_i), count++;
+		add_to_buffer('-', buffer, buffer_i), count++;
 		src_float *= -1; /* make absolute */
 	}
 	/* split the float to an int by casting it to int */
 	int_part = (long int) src_float;
 	/* print integer part */
-	count += buffer_i += add_int_buff(int_part, buffer, buffer_i);
+	count += add_int_buff(int_part, buffer, buffer_i);
 	/* print dot, increment count */
-	buffer_i = add_to_buffer('.', buffer, buffer_i), count++;
+	add_to_buffer('.', buffer, buffer_i), count++;
 	/* get difference from float */
 	/* integer will be promoted to double for minus op */
 	dec_part = src_float - int_part;

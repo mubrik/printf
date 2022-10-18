@@ -4,11 +4,11 @@
  * add_int_buff - recursive add number to buffer
  * @num: integer to add
  * @buffer: the ptr to a buffer
- * @buffer_i: index of buffer
+ * @buffer_i: ptr index of buffer
  * Description: works recursively, wont print until last digit which becomes
  * Return: count of bytes added to buffer
  */
-int add_int_buff(unsigned int num, char *buffer, int buffer_i)
+int add_int_buff(unsigned int num, char *buffer, int *buffer_i)
 {
 	int count = 0;
 	unsigned int div_by;
@@ -18,7 +18,7 @@ int add_int_buff(unsigned int num, char *buffer, int buffer_i)
 		div_by *= 10;
 	while (div_by > 0)
 	{
-		buffer_i = add_to_buffer(((num / div_by) % 10) + '0', buffer, buffer_i);
+		add_to_buffer(((num / div_by) % 10) + '0', buffer, buffer_i);
 		count++, div_by /= 10;
 	}
 
@@ -34,7 +34,7 @@ int add_int_buff(unsigned int num, char *buffer, int buffer_i)
  * Return: number of integers added
  */
 int handle_int_format(va_list arg_list, char *buffer,
-	int buffer_i, __attribute__((unused)) Format_flag_t *flags)
+	int *buffer_i, __attribute__((unused)) Format_flag_t *flags)
 {
 	int number, count = 0;
 
@@ -43,7 +43,7 @@ int handle_int_format(va_list arg_list, char *buffer,
 	/* neg number */
 	if (number < 0)
 	{
-		buffer_i = add_to_buffer('-', buffer, buffer_i), count++;
+		add_to_buffer('-', buffer, buffer_i), count++;
 		number *= -1; /* make absolute */
 	}
 

@@ -33,22 +33,24 @@ typedef struct Format_flag
 typedef struct type_to_func
 {
 	char *op_type;
-	int (*op_func)(va_list arg_list, char *buffer, int buffer_i, Format_flag_t *flags);
+	int (*op_func)(va_list arg_list, char *buffer, int *buffer_i, Format_flag_t *flags);
 } type_to_func_t;
+
+typedef int (*Format_handler)(va_list arg_list, char *, int *, Format_flag_t *);
 
 int _putchar(char c);
 int print_buffer(char *buffer, int byte_count);
 int is_format_spec(const char *src_ptr, char *s_buff, Format_flag_t *flags);
-int add_to_buffer(char str, char *buffer, int buffer_i);
-int add_int_buff(unsigned int, char *buffer, int buffer_i);
+int add_to_buffer(char str, char *buffer, int *buffer_i);
+int add_int_buff(unsigned int, char *buffer, int *buffer_i);
 /* int cp_to_flag_buffer(const char *src_ptr, int byte_c, Format_flag_t *flags_buffer); */
-int handle_char_format(va_list arg_list, char *buffer, int buffer_i, Format_flag_t *flags);
-int handle_str_format(va_list arg_list, char *buffer, int buffer_i, Format_flag_t *flags);
-int handle_int_format(va_list arg_list, char *buffer, int buffer_i, Format_flag_t *flags);
-int handle_float_format(va_list arg_list, char *buffer, int buffer_i, Format_flag_t *flags);
-int handle_percent_format(va_list arg_list, char *buffer, int buffer_i, Format_flag_t *flags);
-int handle_bin_format(va_list arg_list, char *buffer, int buffer_i, __attribute__((unused)) Format_flag_t *flags);
-int (*get_format_handler(char *spec))(va_list arg_list, char *buff, int buffer_i , Format_flag_t *flags);
+int handle_char_format(va_list arg_list, char *buffer, int *buffer_i, Format_flag_t *flags);
+int handle_str_format(va_list arg_list, char *buffer, int *buffer_i, Format_flag_t *flags);
+int handle_int_format(va_list arg_list, char *buffer, int *buffer_i, Format_flag_t *flags);
+int handle_float_format(va_list arg_list, char *buffer, int *buffer_i, Format_flag_t *flags);
+int handle_percent_format(va_list arg_list, char *buffer, int *buffer_i, Format_flag_t *flags);
+int handle_bin_format(va_list arg_list, char *buffer, int *buffer_i, __attribute__((unused)) Format_flag_t *flags);
+Format_handler get_format_handler(char *spec);
 int print_buffer(char *buffer, int byte_count);
 Format_flag_t *make_format_flag_struct();
 int is_flag_set(char flag, Format_flag_t *format_flag);

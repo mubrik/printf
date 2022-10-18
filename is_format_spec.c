@@ -49,29 +49,29 @@ int _is_format_spec_char(char c)
 /**
  * _set_spec_format - sets the character to the specification buffer
  * @c: character
- * @s_buff: ptr to format specification buffer
+ * @form_spec_buff: ptr to format specification buffer
  * Return: 1 if true, 0 else
  */
-int _set_spec_format(char c, char *s_buff)
+int _set_spec_format(char c, char *form_spec_buff)
 {
 	if (c == '\0')
 	{
-		s_buff[0] = '\0';
+		form_spec_buff[0] = '\0';
 		return (1);
 	}
 	/* set */
-	s_buff[0] = c, s_buff[1] = '\0';
+	form_spec_buff[0] = c, form_spec_buff[1] = '\0';
 	return (1);
 }
 
 /**
  * is_format_spec - check if the ptr is a format specification, basic check
  * @src_ptr: src char ptr
- * @s_buff: ptr to format specification buffer
+ * @form_spec_buff: ptr to format specification buffer
  * @flags: ptr to flags buffer
  * Return: 1 if it is, 0 if not
  */
-int is_format_spec(const char *src_ptr, char *s_buff, Format_flag_t *flags)
+int is_format_spec(const char *src_ptr, char *form_spec_buff, Format_flag_t *flags)
 {
 	int count;
 
@@ -84,7 +84,7 @@ int is_format_spec(const char *src_ptr, char *s_buff, Format_flag_t *flags)
 	/* checking the immediate next(1) value is a spec directly, no flags: 0(n) */
 	if (_is_format_spec_char(src_ptr[1]))
 	{
-		_set_spec_format(src_ptr[1], s_buff);
+		_set_spec_format(src_ptr[1], form_spec_buff);
 		return (1);
 	}
 	count = 1;
@@ -95,7 +95,7 @@ int is_format_spec(const char *src_ptr, char *s_buff, Format_flag_t *flags)
 		/* checking if a format spec */
 		if (_is_format_spec_char(src_ptr[count]))
 		{
-			_set_spec_format(src_ptr[count], s_buff);
+			_set_spec_format(src_ptr[count], form_spec_buff);
 			return (count);
 		}
 		/* checking if its a flag */

@@ -9,7 +9,7 @@
  * Return: number of characters added
  */
 int handle_str_format(va_list arg_list, char *buffer,
-	int buffer_i, __attribute__((unused)) Format_flag_t *flags)
+	int *buffer_i, __attribute__((unused)) Format_flag_t *flags)
 {
 	char *string_ptr;
 	char *null_str = "(null)"; /* print this if NULL */
@@ -23,13 +23,13 @@ int handle_str_format(va_list arg_list, char *buffer,
 		/* print null */
 		while (null_str[count])
 		{
-			buffer_i = add_to_buffer(null_str[count], buffer, buffer_i), count++;
+			add_to_buffer(null_str[count], buffer, buffer_i), count++;
 		}
 		return (count);
 	}
 
 	while (string_ptr[count])
-		buffer_i = add_to_buffer(string_ptr[count], buffer, buffer_i), count++;
+		add_to_buffer(string_ptr[count], buffer, buffer_i), count++;
 
 	return (count);
 }

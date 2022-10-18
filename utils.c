@@ -5,7 +5,7 @@
  * @spec: the format spec
  * Return: 1 if it is, 0 if not
  */
-int (*get_format_handler(char *spec))(va_list, char *, int, Format_flag_t *)
+Format_handler get_format_handler(char *spec)
 {
 	int index;
 	type_to_func_t type_list[] = {
@@ -34,19 +34,19 @@ int (*get_format_handler(char *spec))(va_list, char *, int, Format_flag_t *)
  * @buffer_i: index of buffer
  * Return: the next available index int
  */
-int add_to_buffer(char str, char *buffer, int buffer_i)
+int add_to_buffer(char str, char *buffer, int *buffer_i)
 {
-	if (buffer_i > PRINT_BUFF_SIZE)
+	if (*buffer_i > PRINT_BUFF_SIZE)
 	{
 		/* flush/print out the buffer */
-		printf("flushing buffer\n");
 		print_buffer(buffer, PRINT_BUFF_SIZE);
 		/* set index to start */
-		buffer_i = 0;
+		*buffer_i = 0;
 	}
 	/* add chr to buffer and incr index */
-	buffer[buffer_i] = str, buffer_i++;
-	return (buffer_i);
+	buffer[*buffer_i] = str,
+	*buffer_i += 1;
+	return (*buffer_i);
 }
 
 /**
@@ -57,7 +57,6 @@ int add_to_buffer(char str, char *buffer, int buffer_i)
  */
 int print_buffer(char *buffer, int byte_count)
 {
-	printf("printing %d bytes of buffer\n", byte_count);
 	return (write(1, buffer, byte_count));
 }
 

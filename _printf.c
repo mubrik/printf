@@ -4,25 +4,30 @@
 /**
  * _allocate_buff_mem - reducing lines in main func,
  * moving malloc and check here
- * @p_buff: ptr to ptr of main print buffer
- * @flags: ptr to ptr of main flag strut
- * @s_buff: ptr to ptr of format specification buffer
+ * @pr_buff: ptr to ptr of main print buffer
+ * @pr_buff_index: ptr to ptr of INDEX of print buffer
+ * @format_spec_buff: ptr to ptr of format specification buffer
+ * @format_flags: ptr to ptr of main format flag struct
  * Return: 0 on success, 1 on failure
  */
-int _allocate_buff_mem(char **p_buff, char **s_buff, Format_flag_t **flags)
+int _allocate_buff_mem(char **pr_buff, int **pr_buff_index,
+	char **format_spec_buff,Format_flag_t **format_flags)
 {
 	/* allocate buffer space */
-	*p_buff = malloc(sizeof(char) * PRINT_BUFF_SIZE);
-	*s_buff = malloc(sizeof(char) + 1);
-	*flags = malloc(sizeof(Format_flag_t));
+	*pr_buff = malloc(sizeof(char) * PRINT_BUFF_SIZE);
+	*pr_buff_index = malloc(sizeof(int));
+	*format_spec_buff = malloc(sizeof(char) + 1);
+	*format_flags = malloc(sizeof(Format_flag_t));
 	/* check */
-	if (!(*s_buff) || !(*p_buff) || !(*flags))
+	if (!(*format_spec_buff) || !(*pr_buff) || !(*format_flags) || !(*pr_buff_index))
 	{
 		return (1);
 	}
 	/* set flags/attribs */
-	(*flags)->minus = 0, (*flags)->zero = 0;
-	(*flags)->plus = 0, (*flags)->space = 0, (*flags)->pound = 0;
+	(*format_flags)->minus = 0, (*format_flags)->zero = 0;
+	(*format_flags)->plus = 0, (*format_flags)->space = 0;
+	(*format_flags)->pound = 0;
+	**pr_buff_index = 0;
 
 	return (0);
 }
@@ -57,48 +62,43 @@ int _free_buff_mem(int num, ...)
  */
 int _printf(const char *format, ...)
 {
-	int count = 0, buffer_i = 0, index = 0, is_spec;
-	char *pr_buff = NULL, *spec_buff = NULL;
+	int count = 0, index = 0, is_form_spec, *buffer_i = NULL;
+	char *pr_buff = NULL, *form_spec_buff = NULL;
 	Format_flag_t *format_flags = NULL;
-	int (*spec_handler)(va_list arg_list, char *, int, Format_flag_t *);
+	Format_handler format_handler;
 	va_list arg_list;
 	/* base check */
 	if (format == NULL)
 		return (-1);
-	if (_allocate_buff_mem(&pr_buff, &spec_buff, &format_flags))
+	if (_allocate_buff_mem(&pr_buff, &buffer_i, &form_spec_buff, &format_flags))
 		return (-1); /* allocate buffer memory */
 	va_start(arg_list, format); /* init varaidic args */
 	/* main loop */
 	for (index = 0; format[index]; index++)
 	{
-		is_spec = is_format_spec(&format[index], spec_buff, format_flags);
-		if (is_spec < 0)
+		is_form_spec = is_format_spec(&format[index], form_spec_buff, format_flags);
+		if (is_form_spec < 0)
 		{/* if an error, break loop and print buffer */
-			count = is_spec;
+			count = is_form_spec;
 			break;
 		}
-		else if (is_spec > 0)
+		else if (is_form_spec > 0)
 		{
-			spec_handler = get_format_handler(spec_buff); /* get handler */
-			if (!spec_handler) /* check */
+			format_handler = get_format_handler(form_spec_buff); /* get handler */
+			if (!format_handler) /* check */
 			{
 				count++;
 				continue;
 			}
-			printf("count before: %d\n", count);
-			count += spec_handler(arg_list, pr_buff, buffer_i, format_flags);
-			printf("count after: %d\n", count);
-			reset_format_flag(format_flags), index += is_spec;/* reset flags */
+			/* printf("count before: %d\n", count); */
+			count += format_handler(arg_list, pr_buff, buffer_i, format_flags);
+			/* printf("count after: %d\n", count); */
+			reset_format_flag(format_flags), index += is_form_spec;/* reset flags */
 		}
 		else
-			buffer_i = add_to_buffer(format[index], pr_buff, buffer_i), count++;
-		buffer_i = count; /* refresh buffer, but within limits */
-		while (buffer_i > PRINT_BUFF_SIZE)
-			buffer_i -= PRINT_BUFF_SIZE;
+			add_to_buffer(format[index], pr_buff, buffer_i), count++;
 	}
-	printf("exit buffer index: %d\n", buffer_i);
-	printf("Buffer contains at exit: \n %s \n", pr_buff);
-	print_buffer(pr_buff, buffer_i);
-	_free_buff_mem(3, pr_buff, format_flags, spec_buff), va_end(arg_list);
+	print_buffer(pr_buff, *buffer_i);
+	_free_buff_mem(4, pr_buff, format_flags, form_spec_buff, buffer_i), va_end(arg_list);
 	return (count);
 }

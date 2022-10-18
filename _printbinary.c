@@ -25,7 +25,7 @@ void _int_to_bin_buff(unsigned int integer, char *bin_b, int num)
  * Return: count of chars added
  */
 int handle_bin_format(va_list arg_list, char *buffer,
-	char buffer_i, __attribute__((unused)) Format_flag_t *flags)
+	int buffer_i, __attribute__((unused)) Format_flag_t *flags)
 {
 	unsigned int num, count = 0, bytes;
 	char *bin_buffer, *cp_buff;

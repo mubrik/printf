@@ -9,7 +9,7 @@
  * Return: number of bytes added
  */
 int handle_float_format(va_list arg_list, char *buffer,
-	char buffer_i, __attribute__((unused)) Format_flag_t *flags)
+	int buffer_i, __attribute__((unused)) Format_flag_t *flags)
 {
 	/* float is promoted to double using va_arg */
 	double src_float, dec_part;

@@ -2,6 +2,22 @@
 #include <stdio.h>
 #include "../main.h"
 
+void generate_string(int byte_len, char *buffer)
+{
+	int index = 0;
+
+	for (; index < byte_len; index++)
+	{
+		if (index == byte_len - 1)
+		{
+			buffer[index] = 'z';
+			continue;
+		}
+		buffer[index] = 'a';
+	}
+	buffer[byte_len] = '\0';
+}
+
 /**
  * main - Entry point
  *
@@ -9,26 +25,15 @@
  */
 int main(void)
 {
-	int len, len2, nil, nil2;
+	int len, len2;
+	char long_str[1026];
 
-	nil = _printf("Character:[%c]\n", NULL);
-	nil2 = printf("Character:[%c]\n", NULL);
-	_printf("Let's try to printf a simple sentence.\n");
-	printf("Let's try to printf a simple sentence.\n");
-	_printf("Character:[%c]\n", 'H');
-	printf("Character:[%c]\n", 'H');
-	_printf("String:[%s]\n", "I am a string !");
-	printf("String:[%s]\n", "I am a string !");
-	_printf("Sub Characters %c %c %c\n", 'a', 'b', 'c');
-	printf("Sub Characters %c %c %c\n", 'a', 'b', 'c');
-	_printf("Sub String %s %s %s\n", "stringa", "stringb", "stringc");
-	printf("Sub String %s %s %s\n", "stringa", "stringb", "stringc");
-	len = _printf("Mix String & Chars %c %s %c %s %% %% \n", 'a', "stringb", 'b', "stringify");
-	len2 = printf("Mix String & Chars %c %s %c %s %% %% \n", 'a', "stringb", 'b', "stringify");
-	/* _printf("Numbers Floatt and decimal %f %f %f %d %d %i %i\n", 1255.66, -12.447, 1.6, 2.2, -0.5, '7', -777777);
-	printf("Numbers Floatt and decimal %f %f %f %d %d %i %i\n", 1255.66, -12.447, 1.6, 2.2, -0.5, '7', -777777); */
+	generate_string(1026, long_str);
 
-	printf("Length c printf: %d, length myprintf: %d\n", len2, len);
-	printf("NULl c printf: %d, NULl myprintf: %d\n", nil2, nil);
+	/* correct input long str */
+	_printf("Testing Correct Input long str 1026: \n");
+	len = _printf("long str 1026:[%s]\n", long_str);
+	len2 = printf("long str 1026:[%s]\n", long_str);
+	printf("Length my printf: %d, Length orig printf: %d\n", len, len2);
 	return (0);
 }

@@ -8,7 +8,7 @@
  * Description: works recursively, wont print until last digit which becomes
  * Return: count of bytes added to buffer
  */
-int add_int_buff(unsigned int num, char *buffer, char buffer_i)
+int add_int_buff(unsigned int num, char *buffer, int buffer_i)
 {
 	int count = 0;
 	unsigned int div_by;
@@ -34,7 +34,7 @@ int add_int_buff(unsigned int num, char *buffer, char buffer_i)
  * Return: number of integers added
  */
 int handle_int_format(va_list arg_list, char *buffer,
-	char buffer_i, __attribute__((unused)) Format_flag_t *flags)
+	int buffer_i, __attribute__((unused)) Format_flag_t *flags)
 {
 	int number, count = 0;
 

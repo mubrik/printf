@@ -60,7 +60,7 @@ int _printf(const char *format, ...)
 	int count = 0, buffer_i = 0, index = 0, is_spec;
 	char *pr_buff = NULL, *spec_buff = NULL;
 	Format_flag_t *format_flags = NULL;
-	int (*spec_handler)(va_list arg_list, char *, char, Format_flag_t *);
+	int (*spec_handler)(va_list arg_list, char *, int, Format_flag_t *);
 	va_list arg_list;
 	/* base check */
 	if (format == NULL)
@@ -85,15 +85,19 @@ int _printf(const char *format, ...)
 				count++;
 				continue;
 			}
+			printf("count before: %d\n", count);
 			count += spec_handler(arg_list, pr_buff, buffer_i, format_flags);
+			printf("count after: %d\n", count);
 			reset_format_flag(format_flags), index += is_spec;/* reset flags */
 		}
 		else
-			add_to_buffer(format[index], pr_buff, buffer_i), count++;
+			buffer_i = add_to_buffer(format[index], pr_buff, buffer_i), count++;
 		buffer_i = count; /* refresh buffer, but within limits */
 		while (buffer_i > PRINT_BUFF_SIZE)
 			buffer_i -= PRINT_BUFF_SIZE;
 	}
+	printf("exit buffer index: %d\n", buffer_i);
+	printf("Buffer contains at exit: \n %s \n", pr_buff);
 	print_buffer(pr_buff, buffer_i);
 	_free_buff_mem(3, pr_buff, format_flags, spec_buff), va_end(arg_list);
 	return (count);

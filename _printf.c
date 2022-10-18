@@ -11,7 +11,7 @@
  * Return: 0 on success, 1 on failure
  */
 int _allocate_buff_mem(char **pr_buff, int **pr_buff_index,
-	char **format_spec_buff,Format_flag_t **format_flags)
+	char **format_spec_buff, Format_flag_t **format_flags)
 {
 	/* allocate buffer space */
 	*pr_buff = malloc(sizeof(char) * PRINT_BUFF_SIZE);
@@ -19,7 +19,8 @@ int _allocate_buff_mem(char **pr_buff, int **pr_buff_index,
 	*format_spec_buff = malloc(sizeof(char) + 1);
 	*format_flags = malloc(sizeof(Format_flag_t));
 	/* check */
-	if (!(*format_spec_buff) || !(*pr_buff) || !(*format_flags) || !(*pr_buff_index))
+	if (!(*format_spec_buff) || !(*pr_buff) ||
+		!(*format_flags) || !(*pr_buff_index))
 	{
 		return (1);
 	}
@@ -90,15 +91,13 @@ int _printf(const char *format, ...)
 				count++;
 				continue;
 			}
-			/* printf("count before: %d\n", count); */
 			count += format_handler(arg_list, pr_buff, buffer_i, format_flags);
-			/* printf("count after: %d\n", count); */
 			reset_format_flag(format_flags), index += is_form_spec;/* reset flags */
 		}
 		else
 			add_to_buffer(format[index], pr_buff, buffer_i), count++;
 	}
-	print_buffer(pr_buff, *buffer_i);
-	_free_buff_mem(4, pr_buff, format_flags, form_spec_buff, buffer_i), va_end(arg_list);
+	print_buffer(pr_buff, *buffer_i), va_end(arg_list);
+	_free_buff_mem(4, pr_buff, format_flags, form_spec_buff, buffer_i);
 	return (count);
 }

@@ -71,7 +71,8 @@ int _set_spec_format(char c, char *form_spec_buff)
  * @flags: ptr to flags buffer
  * Return: 1 if it is, 0 if not
  */
-int is_format_spec(const char *src_ptr, char *form_spec_buff, Format_flag_t *flags)
+int is_format_spec(const char *src_ptr, char *form_spec_buff,
+	Format_flag_t *flags)
 {
 	int count;
 

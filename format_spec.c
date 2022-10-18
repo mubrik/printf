@@ -1,30 +1,6 @@
 #include "main.h"
 
 /**
- * _is_number - checks if char is a number
- * @c: character
- * Return: 1 if true, 0 else
- */
-int _is_number(char c)
-{
-	if (c >= '0' && c <= '9')
-		return (1);
-	return (0);
-}
-
-/**
- * _is_flag_character - checks if char is a flag type ( +-0)
- * @c: character
- * Return: 1 if true, 0 else
- */
-int _is_flag_character(char c)
-{
-	if (c == ' ' || c == '+' || c == '-' || c == '#' || c == '0')
-		return (1);
-	return (0);
-}
-
-/**
  * _is_format_spec_char - checks if char is a format spec char "cdefgiosux%"
  * @c: character
  * Return: 1 if true, 0 else
@@ -32,7 +8,7 @@ int _is_flag_character(char c)
 int _is_format_spec_char(char c)
 {
 	/* all spec "cdefgiosux%" custom: "b" */
-	char *spec_arr = "cdsfi%b";
+	char *spec_arr = "cdsfiouxXb%";
 
 	/* iterate */
 	while (*spec_arr != '\0')
@@ -100,7 +76,7 @@ int is_format_spec(const char *src_ptr, char *form_spec_buff,
 			return (count);
 		}
 		/* checking if its a flag */
-		else if (_is_flag_character(src_ptr[count]))
+		else if (is_flag_character(src_ptr[count]))
 		{/* if not set, set it */
 			if (!is_flag_set(src_ptr[count], flags))
 				set_format_flag(src_ptr[count], flags);
@@ -114,4 +90,33 @@ int is_format_spec(const char *src_ptr, char *form_spec_buff,
 	}
 	/* string did not end with a spec character */
 	return (0);
+}
+
+/**
+ * get_format_handler - gets the function used to print a specific format
+ * @format_spec: the format spec
+ * Return: 1 if it is, 0 if not
+ */
+Format_handler *get_format_handler(char *format_spec)
+{
+	int index;
+	format_to_func_t type_list[] = {
+		{"c", handle_char_format}, {"d", handle_int_format},
+		{"s", handle_str_format}, {"f", handle_float_format},
+		{"i", handle_int_format}, {"%", handle_percent_format},
+		{"b", handle_bin_format}, {"o", handle_oct_format},
+		{"x", handle_shex_format}, {"X", handle_chex_format},
+		{"u", handle_uint_format}
+	};
+	/* iterate */
+	for (index = 0; index < (int) sizeof(format_to_func_t); index++)
+	{
+		/* if spec matches */
+		if (*(type_list[index].format_type) == *format_spec)
+		{
+			return (type_list[index].format_func);
+		}
+	}
+
+	return (NULL);
 }

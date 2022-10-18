@@ -20,7 +20,6 @@ int handle_str_format(va_list arg_list, char *buffer,
 	/* null check */
 	if (!string_ptr)
 	{
-		/* print null */
 		while (null_str[count])
 		{
 			add_to_buffer(null_str[count], buffer, buffer_i), count++;

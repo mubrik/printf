@@ -34,5 +34,21 @@ int main(void)
 	_printf("Testing Correct Input negative INT_MAX: \n");
 	len = _printf("Negative INT_MAX:[%d] & [%d]\n", (INT_MAX * -1), (INT_MAX * -1));
 	len2 = printf("Negative INT_MAX:[%d] & [%d]\n", (INT_MAX * -1), (INT_MAX * -1));
+	printf("Length my printf: %d, Length orig printf: %d\n", len, len2);
+	/* correct max number unsigned */
+	_printf("Testing Correct Unsigned INT_MAX: \n");
+	len = _printf("Unsigned INT_MAX:[%u] & [%u]\n", INT_MAX, INT_MAX);
+	len2 = printf("Unsigned INT_MAX:[%u] & [%u]\n", INT_MAX, INT_MAX);
+	printf("Length my printf: %d, Length orig printf: %d\n", len, len2);
+	/* correct max number unsigned */
+	_printf("Testing Correct Unsigned 4294967295: \n");
+	len = _printf("Unsigned 4294967295:[%u] & [%u]\n", 4294967295, 4294967295);
+	len2 = printf("Unsigned 4294967295:[%u] & [%u]\n", 4294967295, 4294967295);
+	printf("Length my printf: %d, Length orig printf: %d\n", len, len2);
+	/* unsigned NULL */
+	_printf("Testing Correct Unsigned NULL: \n");
+	len = _printf("Unsigned NULL:[%u] & [%u]\n", NULL, NULL);
+	len2 = printf("Unsigned NULL:[%u] & [%u]\n", NULL, NULL);
+	printf("Length my printf: %d, Length orig printf: %d\n", len, len2);
 	return (0);
 }

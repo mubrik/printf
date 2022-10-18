@@ -1,6 +1,18 @@
 #include "main.h"
 
 /**
+ * is_flag_character - checks if char is a flag type ( +-0)
+ * @c: character
+ * Return: 1 if true, 0 else
+ */
+int is_flag_character(char c)
+{
+	if (c == ' ' || c == '+' || c == '-' || c == '#' || c == '0')
+		return (1);
+	return (0);
+}
+
+/**
  * is_flag_set - checks if a flag is set
  * Return: 1 if set, 0 if not
  * @flag: flag character or 'n' for number

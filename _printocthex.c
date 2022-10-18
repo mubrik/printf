@@ -22,12 +22,12 @@ void _int_to_oct_buff(unsigned int integer, char *bin_b, int num)
 }
 
 /**
- * _int_to_hex_buff - adds hex chars to the buffer
+ * int_to_hex_buff - adds hex chars to the buffer
  * @integer: integer
  * @bin_b: the ptr to a buffer
  * @num: num of bytes in buff
  */
-void _int_to_hex_buff(unsigned int integer, char *bin_b, int num)
+void int_to_hex_buff(unsigned int integer, char *bin_b, int num)
 {
 	int res;
 
@@ -115,7 +115,7 @@ int handle_shex_format(va_list arg_list, char *buffer,
 	if (!bin_buffer)
 		return (0);
 	bin_buffer[bytes + 1] = '\0';
-	_int_to_hex_buff(num, bin_buffer, bytes);
+	int_to_hex_buff(num, bin_buffer, bytes);
 	/* push buffer ptr until we hit the fisrt non zero*/
 	cp_buff = bin_buffer;
 	while (*bin_buffer == '0')
@@ -157,7 +157,7 @@ int handle_chex_format(va_list arg_list, char *buffer,
 	if (!bin_buffer)
 		return (0);
 	bin_buffer[bytes + 1] = '\0';
-	_int_to_hex_buff(num, bin_buffer, bytes);
+	int_to_hex_buff(num, bin_buffer, bytes);
 	/* push buffer ptr until we hit the fisrt non zero*/
 	cp_buff = bin_buffer;
 	while (*bin_buffer == '0')

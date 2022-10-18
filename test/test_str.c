@@ -33,6 +33,10 @@ int main(void)
 	len = _printf("String:[%s]\n", "This is a string!@#11a");
 	len2 = printf("String:[%s]\n", "This is a string!@#11a");
 	printf("Length my printf: %d, Length orig printf: %d\n", len, len2);
+	/* correct input capital S */
+	_printf("Testing Correct Input capital S: \n");
+	len = _printf("String:[%S]\n", "Best\nSchool");
+	printf("Length my printf: %d, Length orig printf: %d\n", len, len2);
 	/* no input */
 	_printf("Testing no input: \n");
 	len = _printf("String:[%s]\n");

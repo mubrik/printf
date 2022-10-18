@@ -25,3 +25,17 @@ int is_number(char c)
 		return (1);
 	return (0);
 }
+
+/**
+ * is_non_printable - check if non printable
+ * @src_ptr: ptr to char
+ * Return: 1 if true, 0 else
+ */
+int is_non_printable(char *src_ptr)
+{
+	if (!src_ptr)
+		return (0);
+	if (*src_ptr < ' ' || *src_ptr >= 127)
+		return (1);
+	return (0);
+}

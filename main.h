@@ -31,6 +31,7 @@ typedef int Format_handler(va_list arg_list, char *buffer, int *buffer_i, Format
 /* functions that handle a spec format */
 Format_handler handle_char_format;
 Format_handler handle_str_format;
+Format_handler handle_cstr_format;
 Format_handler handle_int_format;
 Format_handler handle_uint_format;
 Format_handler handle_float_format;
@@ -61,9 +62,11 @@ int add_int_buff(unsigned int, char *buffer, int *buffer_i);
 int free_buff_mem(int num, ...);
 int allocate_buff_mem(char **pr_buff, int **pr_buff_index,
 	char **format_spec_buff, Format_flag_t **format_flags);
+void int_to_hex_buff(unsigned int integer, char *bin_b, int num);
 /* utility functions */
 int is_number(char c);
 void capitalize_alpha(char *src_ptr);
+int is_non_printable(char *src_ptr);
 /* flag functions */
 int is_flag_set(char flag, Format_flag_t *format_flag);
 int is_flag_character(char c);

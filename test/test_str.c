@@ -68,6 +68,11 @@ int main(void)
 	len = _printf("3rd arg missing:[%s], [%s], [%s] \n", "first", "second");
 	len2 = printf("3rd arg missing:[%s], [%s], [%s] \n", "first", "second");
 	printf("Length my printf: %d, Length orig printf: %d\n", len, len2);
+	/* input is string "Ghh", more tests */
+	_printf("Testing an argument missing: \n");
+	len = _printf("2nd arg missing:[%s], [%s], [%s] \n", "first", '\0', "second");
+	len2 = printf("2nd arg missing:[%s], [%s], [%s] \n", "first", '\0', "second");
+	printf("Length my printf: %d, Length orig printf: %d\n", len, len2);
 	/* correct input long str */
 	_printf("Testing Correct Input long str 1026: \n");
 	len = _printf("long str 1026:[%s]\n", long_str);

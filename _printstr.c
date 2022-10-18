@@ -31,5 +31,5 @@ int handle_str_format(va_list arg_list, char *buffer,
 	while (string_ptr[count])
 		add_to_buffer(string_ptr[count], buffer, buffer_i), count++;
 
-	return (count);
+	return (count == 0 ? (1) : (count));
 }

@@ -15,6 +15,21 @@ int main(void)
 	len = _printf("Number:[%d] & [%i]\n", 5600, 48484);
 	len2 = printf("Number:[%d] & [%i]\n", 5600, 48484);
 	printf("Length my printf: %d, Length orig printf: %d\n", len, len2);
+	/* correct input */
+	_printf("Testing Correct Input + flag: \n");
+	len = _printf("Number:[%+d] & [%+i]\n", 5600, 48484);
+	len2 = printf("Number:[%+d] & [%+i]\n", 5600, 48484);
+	printf("Length my printf: %d, Length orig printf: %d\n", len, len2);
+	/* correct input */
+	_printf("Testing Correct Input   flag: \n");
+	len = _printf("Number:[% d] & [% i]\n", 5600, 48484);
+	len2 = printf("Number:[% d] & [% i]\n", 5600, 48484);
+	printf("Length my printf: %d, Length orig printf: %d\n", len, len2);
+	/* correct input */
+	_printf("Testing Correct Input + flag neg number: \n");
+	len = _printf("Number:[%+d] & [%+i]\n", INT_MIN, INT_MIN);
+	len2 = printf("Number:[%+d] & [%+i]\n", INT_MIN, INT_MIN);
+	printf("Length my printf: %d, Length orig printf: %d\n", len, len2);
 	/* correct input 0 */
 	_printf("Testing Correct Input 0: \n");
 	len = _printf("Number:[%d] & [%i]\n", 0, 0);

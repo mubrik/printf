@@ -56,7 +56,7 @@ void int_to_hex_buff(unsigned int integer, char *bin_b, int num)
 int handle_oct_format(va_list arg_list, char *buffer,
 	int *buffer_i, __attribute__((unused)) Format_flag_t *flags)
 {
-	unsigned int num, count = 0, bytes;
+	unsigned int num, count = 0, index = 0, bytes;
 	char *bin_buffer, *cp_buff;
 	/* get num from list */
 	num = va_arg(arg_list, int);
@@ -77,6 +77,9 @@ int handle_oct_format(va_list arg_list, char *buffer,
 	cp_buff = bin_buffer;
 	while (*bin_buffer == '0')
 		bin_buffer++;
+	/* handling # flag */
+	if (flags->pound && bin_buffer[index])
+		add_to_buffer('0', buffer, buffer_i), index++;
 	/* buffer, strat from 1 excluding first zeros of binary */
 	while (bin_buffer[count])
 	{
@@ -85,7 +88,7 @@ int handle_oct_format(va_list arg_list, char *buffer,
 	}
 	/* free buffer */
 	free(cp_buff);
-	return (count);
+	return (count + index);
 }
 
 /**
@@ -99,7 +102,7 @@ int handle_oct_format(va_list arg_list, char *buffer,
 int handle_shex_format(va_list arg_list, char *buffer,
 	int *buffer_i, __attribute__((unused)) Format_flag_t *flags)
 {
-	unsigned int num, count = 0, bytes;
+	unsigned int num, count = 0, index = 0, bytes;
 	char *bin_buffer, *cp_buff;
 	/* get num from list */
 	num = va_arg(arg_list, int);
@@ -120,6 +123,12 @@ int handle_shex_format(va_list arg_list, char *buffer,
 	cp_buff = bin_buffer;
 	while (*bin_buffer == '0')
 		bin_buffer++;
+	/* handling # flag */
+	if (flags->pound && bin_buffer[index])
+	{
+		add_to_buffer('0', buffer, buffer_i), index++;
+		add_to_buffer('x', buffer, buffer_i), index++;
+	}
 	while (bin_buffer[count])
 	{
 		add_to_buffer((bin_buffer[count]), buffer, buffer_i);
@@ -127,7 +136,7 @@ int handle_shex_format(va_list arg_list, char *buffer,
 	}
 	/* free buffer */
 	free(cp_buff);
-	return (count);
+	return (count + index);
 }
 
 /**
@@ -141,7 +150,7 @@ int handle_shex_format(va_list arg_list, char *buffer,
 int handle_chex_format(va_list arg_list, char *buffer,
 	int *buffer_i, __attribute__((unused)) Format_flag_t *flags)
 {
-	unsigned int num, count = 0, bytes;
+	unsigned int num, count = 0, index = 0, bytes;
 	char *bin_buffer, *cp_buff;
 	/* get num from list */
 	num = va_arg(arg_list, int);
@@ -162,6 +171,12 @@ int handle_chex_format(va_list arg_list, char *buffer,
 	cp_buff = bin_buffer;
 	while (*bin_buffer == '0')
 		bin_buffer++;
+	/* handling # flag */
+	if (flags->pound && bin_buffer[index])
+	{
+		add_to_buffer('0', buffer, buffer_i), index++;
+		add_to_buffer('X', buffer, buffer_i), index++;
+	}
 	while (bin_buffer[count])
 	{
 		capitalize_alpha(&bin_buffer[count]);
@@ -170,5 +185,5 @@ int handle_chex_format(va_list arg_list, char *buffer,
 	}
 	/* free buffer */
 	free(cp_buff);
-	return (count);
+	return (count + index);
 }

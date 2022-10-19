@@ -11,6 +11,21 @@ int main(void)
 {
 	int len, len2;
 	/* correct input */
+	_printf("Testing Correct Input 0: \n");
+	len = _printf("Number:[%o] & [%o]\n", 0, 0);
+	len2 = printf("Number:[%o] & [%o]\n", 0, 0);
+	printf("Length my printf: %d , Orig Printf len: %d \n", len, len2);
+	/* correct input */
+	_printf("Testing Correct Input 0 with # flag: \n");
+	len = _printf("Number:[%#o] & [%#o]\n", 0, 0);
+	len2 = printf("Number:[%#o] & [%#o]\n", 0, 0);
+	printf("Length my printf: %d , Orig Printf len: %d \n", len, len2);
+	/* correct input */
+	_printf("Testing Correct Input INT_MAX with ## flag: \n");
+	len = _printf("Number:[%##o] & [%##o]\n", INT_MAX, INT_MAX);
+	len2 = printf("Number:[%##o] & [%##o]\n", INT_MAX, INT_MAX);
+	printf("Length my printf: %d , Orig Printf len: %d \n", len, len2);
+	/* correct input */
 	_printf("Testing Correct Input 98: \n");
 	len = _printf("Number:[%o] & [%o]\n", 98, 98);
 	len2 = printf("Number:[%o] & [%o]\n", 98, 98);

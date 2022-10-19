@@ -35,16 +35,22 @@ int add_int_buff(unsigned int num, char *buffer, int *buffer_i)
 int handle_int_format(va_list arg_list, char *buffer,
 	int *buffer_i, __attribute__((unused)) Format_flag_t *flags)
 {
-	int number, count = 0;
+	int number, count = 0, is_neg = 0;
 
 	/* get argument from list */
 	number = va_arg(arg_list, int);
 	/* neg number */
 	if (number < 0)
 	{
-		add_to_buffer('-', buffer, buffer_i), count++;
+		add_to_buffer('-', buffer, buffer_i), is_neg = 1, count++;
 		number *= -1; /* make absolute */
 	}
+	/* handle + flag */
+	if (flags->plus && !is_neg)
+		add_to_buffer('+', buffer, buffer_i), count++;
+	/* handle space flag, plus flag takes priority */
+	if (flags->space && !is_neg && !flags->plus)
+		add_to_buffer(' ', buffer, buffer_i), count++;
 
 	count += add_int_buff(number, buffer, buffer_i);
 	return (count);

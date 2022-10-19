@@ -30,6 +30,11 @@ int main(void)
 	len = _printf("max unsigned:[%x] & [%x]\n", 4294967295, 4294967295);
 	len2 = printf("max unsigned:[%x] & [%x]\n", 4294967295, 4294967295);
 	printf("Length my printf: %d , Orig Printf len: %d \n", len, len2);
+	/* correct max unsigned number */
+	printf("Testing Correct Input 4294967295 with # flag %u: \n", 4294967295);
+	len = _printf("max unsigned:[%#x] & [%#x]\n", 4294967295, 4294967295);
+	len2 = printf("max unsigned:[%#x] & [%#x]\n", 4294967295, 4294967295);
+	printf("Length my printf: %d , Orig Printf len: %d \n", len, len2);
 	/* null */
 	printf("Testing NULL: \n");
 	len = _printf("INT_MAX:[%x] & [%x]\n", NULL, NULL);
@@ -54,6 +59,11 @@ int main(void)
 	printf("Testing Correct Input 4294967295 %u: \n", 4294967295);
 	len = _printf("max unsigned:[%X] & [%X]\n", 4294967295, 4294967295);
 	len2 = printf("max unsigned:[%X] & [%X]\n", 4294967295, 4294967295);
+	printf("Length my printf: %d , Orig Printf len: %d \n", len, len2);
+	/* correct max unsigned number capital */
+	printf("Testing Correct Input 4294967295 with # flag %u: \n", 4294967295);
+	len = _printf("max unsigned:[%##X] & [%##X]\n", 4294967295, 4294967295);
+	len2 = printf("max unsigned:[%##X] & [%##X]\n", 4294967295, 4294967295);
 	printf("Length my printf: %d , Orig Printf len: %d \n", len, len2);
 	/* null capital */
 	printf("Testing NULL: \n");

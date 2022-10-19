@@ -98,12 +98,11 @@ int handle_cstr_format(va_list arg_list, char *buffer,
 		if (is_non_printable(&string_ptr[count]))
 		{
 			sub_count += _add_non_printable_chars(string_ptr[count], buffer, buffer_i);
-			count++; /* count should not actually be moved */
+			count++;
 			continue;
 		}
 		add_to_buffer(string_ptr[count], buffer, buffer_i), count++;
 	}
-	/* count moved by unneccseary 1 if sub_count */
-	/* (sub_count > 0) ? sub_count-- : sub_count; */
+
 	return (count + sub_count);
 }

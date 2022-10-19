@@ -104,6 +104,6 @@ int handle_cstr_format(va_list arg_list, char *buffer,
 		add_to_buffer(string_ptr[count], buffer, buffer_i), count++;
 	}
 	/* count moved by unneccseary 1 if sub_count */
-	(sub_count > 0) ? sub_count-- : sub_count;
+	/* (sub_count > 0) ? sub_count-- : sub_count; */
 	return (count + sub_count);
 }

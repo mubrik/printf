@@ -89,7 +89,7 @@ int is_format_spec(const char *src_ptr, char *form_spec_buff,
 		}
 	}
 	/* string did not end with a spec character */
-	return (0);
+	return (-1);
 }
 
 /**

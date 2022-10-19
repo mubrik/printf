@@ -28,8 +28,7 @@ int add_to_buffer(char str, char *buffer, int *buffer_i)
 		*buffer_i = 0;
 	}
 	/* add chr to buffer and incr index */
-	buffer[*buffer_i] = str,
-	*buffer_i += 1;
+	buffer[*buffer_i] = str, *buffer_i += 1;
 	return (*buffer_i);
 }
 

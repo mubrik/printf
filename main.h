@@ -9,11 +9,12 @@
 #define PRINT_BUFF_SIZE 1024
 
 /**
- * struct Format_Flags - holds the array of flags
+ * struct Format_flag - holds the array of flags
  * @plus: 1 if flag is set, 0 otherwise
  * @minus: 1 if flag is set, 0 otherwise
  * @space: 1 if flag is set, 0 otherwise
- * @number: the number if flag is set, t0 otherwise
+ * @pound: 1 if flag is set, 0 otherwise
+ * @zero: 1 if flag is set, 0 otherwise
  * Description: Betty forced me to use a typedef here, the array of flags
  */
 typedef struct Format_flag
@@ -25,8 +26,9 @@ typedef struct Format_flag
 	unsigned int zero;
 } Format_flag_t;
 
-/* This is a generic typedef for all the functions that handles a format spec */
-typedef int Format_handler(va_list arg_list, char *buffer, int *buffer_i, Format_flag_t *flags);
+/* This is a generic typedef for all the functions that handles a format spc */
+typedef int Format_handler(va_list arg_list, char *buffer,
+	int *buffer_i, Format_flag_t *flags);
 
 /* functions that handle a spec format */
 Format_handler handle_char_format;
@@ -40,7 +42,7 @@ Format_handler handle_bin_format;
 Format_handler handle_oct_format;
 Format_handler handle_shex_format;
 Format_handler handle_chex_format;
-Format_handler *get_format_handler(char *spec); /* ptr to func ptr format_handler */
+Format_handler *get_format_handler(char *spec); /* ptr to func ptr */
 
 /**
  * struct format_to_func - this holds a char ptr and func ptr
@@ -71,7 +73,7 @@ int is_non_printable(char *src_ptr);
 int is_flag_set(char flag, Format_flag_t *format_flag);
 int is_flag_character(char c);
 int set_format_flag(char flag, Format_flag_t *format_flag);
-Format_flag_t *reset_format_flag(Format_flag_t *format_flag); /* return ptr to flag */
+Format_flag_t *reset_format_flag(Format_flag_t *format_flag); /* rtrn *flag */
 /* main */
 int _printf(const char *format, ...);
 

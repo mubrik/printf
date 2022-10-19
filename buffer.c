@@ -20,7 +20,7 @@ int print_buffer(char *buffer, int byte_count)
  */
 int add_to_buffer(char str, char *buffer, int *buffer_i)
 {
-	if (*buffer_i > PRINT_BUFF_SIZE)
+	if (*buffer_i >= PRINT_BUFF_SIZE)
 	{
 		/* flush/print out the buffer */
 		print_buffer(buffer, PRINT_BUFF_SIZE);
@@ -46,7 +46,7 @@ int allocate_buff_mem(char **pr_buff, int **pr_buff_index,
 	char **format_spec_buff, Format_flag_t **format_flags)
 {
 	/* allocate buffer space */
-	*pr_buff = malloc(sizeof(char) * (PRINT_BUFF_SIZE + 1));
+	*pr_buff = malloc(sizeof(char) * PRINT_BUFF_SIZE);
 	*pr_buff_index = malloc(sizeof(int));
 	*format_spec_buff = malloc(sizeof(char) + 1);
 	*format_flags = malloc(sizeof(Format_flag_t));

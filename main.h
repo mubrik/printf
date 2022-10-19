@@ -42,6 +42,7 @@ Format_handler handle_bin_format;
 Format_handler handle_oct_format;
 Format_handler handle_shex_format;
 Format_handler handle_chex_format;
+Format_handler handle_pointer_format;
 Format_handler *get_format_handler(char *spec); /* ptr to func ptr */
 
 /**

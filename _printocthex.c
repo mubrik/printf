@@ -109,7 +109,7 @@ int handle_shex_format(va_list arg_list, char *buffer,
 		add_to_buffer('0', buffer, buffer_i);
 		return (1);
 	}
-	bytes = 7; /* max needed for unsigned int to octal */
+	bytes = 7; /* max needed for unsigned int to hex */
 	/* maloc */
 	bin_buffer = malloc((sizeof(char) * bytes) + 1);
 	if (!bin_buffer)

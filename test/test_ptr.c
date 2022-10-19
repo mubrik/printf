@@ -2,22 +2,6 @@
 #include <stdio.h>
 #include "../main.h"
 
-void generate_string(int byte_len, char *buffer)
-{
-	int index = 0;
-
-	for (; index < byte_len; index++)
-	{
-		if (index == byte_len - 1)
-		{
-			buffer[index] = 'z';
-			continue;
-		}
-		buffer[index] = 'a';
-	}
-	buffer[byte_len] = '\0';
-}
-
 /**
  * main - Entry point
  *
@@ -26,13 +10,7 @@ void generate_string(int byte_len, char *buffer)
 int main(void)
 {
 	int len, len2;
-	/* char long_str[5014]; */
 
-	/* correct input long str */
-	/* _printf("Testing Correct Input long str 5014: \n");
-	len = _printf("long str 5014:[%s]\n", long_str);
-	len2 = printf("long str 5014:[%s]\n", long_str);
-	printf("Length my printf: %d, Length orig printf: %d\n", len, len2); */
 	/* correct input pointer */
 	_printf("Testing Correct Input capital S: \n");
 	len = _printf("%p\n", (void *)0x7fff5100b608);
@@ -40,8 +18,8 @@ int main(void)
 	printf("Length my printf: %d, Length orig printf: %d\n", len, len2);
 	/* NULL */
 	_printf("Testing NULL: \n");
-	len = _printf("%p", NULL);
-	len2 = printf("%p", NULL);
+	len = _printf("%p\n", NULL);
+	len2 = printf("%p\n", NULL);
 	printf("Length my printf: %d, Length orig printf: %d\n", len, len2);
 	/* Testing sr add 0x7fff5100b6f8 */
 	_printf("Testing sr add 0x7fff5100b6f8: \n");
@@ -55,8 +33,8 @@ int main(void)
 	printf("Length my printf: %d, Length orig printf: %d\n", len, len2);
 	/* Testing multiple flags */
 	_printf("Testing multiple flags: \n");
-	len = _printf("%pppp", (void *)0x7fff5100b6f8);
-	len2 = printf("%pppp", (void *)0x7fff5100b6f8);
+	len = _printf("%pppp\n", (void *)0x7fff5100b6f8);
+	len2 = printf("%pppp\n", (void *)0x7fff5100b6f8);
 	printf("Length my printf: %d, Length orig printf: %d\n", len, len2);
 	/* Testing severalr add */
 	_printf("Testing severalr add: \n");

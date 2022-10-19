@@ -8,7 +8,7 @@
 int _is_format_spec_char(char c)
 {
 	/* all spec "cdefgiosux%" custom: "b" */
-	char *spec_arr = "cdsSfiouxXb%";
+	char *spec_arr = "cdsSfiouxXpb%";
 
 	/* iterate */
 	while (*spec_arr != '\0')
@@ -106,7 +106,8 @@ Format_handler *get_format_handler(char *format_spec)
 		{"i", handle_int_format}, {"%", handle_percent_format},
 		{"b", handle_bin_format}, {"o", handle_oct_format},
 		{"x", handle_shex_format}, {"X", handle_chex_format},
-		{"u", handle_uint_format}, {"S", handle_cstr_format}
+		{"u", handle_uint_format}, {"S", handle_cstr_format},
+		{"p", handle_pointer_format}
 	};
 	/* iterate */
 	for (index = 0; index < (int) sizeof(format_to_func_t); index++)

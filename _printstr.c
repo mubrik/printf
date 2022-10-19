@@ -18,8 +18,8 @@ int _add_non_printable_chars(char src_ptr, char *buffer, int *buf_i)
 		return (0);
 	/* casting */
 	character = (int) src_ptr;
-	/* lazy, manually adding, first add \x */
-	add_to_buffer('\\', buffer, buf_i), count++;
+	/* lazy, manually adding \x, \x=single char move count once */
+	add_to_buffer('\\', buffer, buf_i);
 	add_to_buffer('x', buffer, buf_i), count++;
 	/* now get hexa of char to hexa buff */
 	int_to_hex_buff(character, hexa, 1);

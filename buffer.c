@@ -39,27 +39,32 @@ int add_to_buffer(char str, char *buffer, int *buffer_i)
  * @pr_buff: ptr to ptr of main print buffer
  * @pr_buff_index: ptr to ptr of INDEX of print buffer
  * @format_spec_buff: ptr to ptr of format specification buffer
- * @format_flags: ptr to ptr of main format flag struct
+ * @mods: ptr to ptr of modifiers
  * Return: 0 on success, 1 on failure
  */
 int allocate_buff_mem(char **pr_buff, int **pr_buff_index,
-	char **format_spec_buff, Format_flag_t **format_flags)
+	char **format_spec_buff, Modifiers_t **mods)
 {
+	Format_flag_t *format_flags;
+	Length_mod_t *length_mods;
 	/* allocate buffer space */
 	*pr_buff = malloc(sizeof(char) * PRINT_BUFF_SIZE);
 	*pr_buff_index = malloc(sizeof(int));
 	*format_spec_buff = malloc(sizeof(char) + 1);
-	*format_flags = malloc(sizeof(Format_flag_t));
+	*mods = malloc(sizeof(Modifiers_t));
+	format_flags = malloc(sizeof(Format_flag_t));
+	length_mods = malloc(sizeof(Length_mod_t));
 	/* check */
-	if (!(*format_spec_buff) || !(*pr_buff) ||
-		!(*format_flags) || !(*pr_buff_index))
+	if (!(*format_spec_buff) || !(*pr_buff) || (!(*mods)) ||
+		(!format_flags) || !(*pr_buff_index) || (!length_mods))
 	{
 		return (1);
 	}
-	/* set flags/attribs */
-	(*format_flags)->minus = 0, (*format_flags)->zero = 0;
-	(*format_flags)->plus = 0, (*format_flags)->space = 0;
-	(*format_flags)->pound = 0;
+	/* set flags/attribs, not necessary but best be explicit i guess */
+	format_flags->minus = 0, format_flags->zero = 0, format_flags->plus = 0;
+	format_flags->space = 0, length_mods->long_m = 0, length_mods->short_m = 0;
+	format_flags->pound = 0, (*mods)->flags = format_flags;
+	(*mods)->length = length_mods, (*mods)->precision = 0, (*mods)->width = 0;
 	**pr_buff_index = 0;
 
 	return (0);
@@ -85,5 +90,20 @@ int free_buff_mem(int num, ...)
 		free(va_arg(arg_list, char *)); /* be free arguments */
 	}
 	va_end(arg_list);
+	return (0);
+}
+
+/**
+ * reset_mods - resets modifiers to default
+ * @mods: ptr to ptr of modifiers
+ * Return: 0 on success, 1 on failure
+ */
+int reset_mods(Modifiers_t *mods)
+{
+	/* set flags/attribs, not necessary but best be explicit i guess */
+	mods->flags->minus = 0, mods->flags->zero = 0, mods->flags->plus = 0;
+	mods->flags->space = 0, mods->length->long_m = 0, mods->length->short_m = 0;
+	mods->flags->pound = 0, mods->precision = 0, mods->width = 0;
+
 	return (0);
 }

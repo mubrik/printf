@@ -38,11 +38,11 @@ int _add_non_printable_chars(char src_ptr, char *buffer, int *buf_i)
  * @arg_list: args list
  * @buffer: the ptr to a buffer
  * @buffer_i: index of buffer
- * @flags: flags to modify behaviour
+ * @mods: ptr of modifiers
  * Return: number of characters added
  */
 int handle_str_format(va_list arg_list, char *buffer,
-	int *buffer_i, __attribute__((unused)) Format_flag_t *flags)
+	int *buffer_i, __attribute__((unused)) Modifiers_t *mods)
 {
 	char *string_ptr;
 	char *null_str = "(null)"; /* print this if NULL */
@@ -71,11 +71,11 @@ int handle_str_format(va_list arg_list, char *buffer,
  * @arg_list: args list
  * @buffer: the ptr to a buffer
  * @buffer_i: index of buffer
- * @flags: flags to modify behaviour
+ * @mods: ptr of modifiers
  * Return: number of characters added
  */
 int handle_cstr_format(va_list arg_list, char *buffer,
-	int *buffer_i, __attribute__((unused)) Format_flag_t *flags)
+	int *buffer_i, __attribute__((unused)) Modifiers_t *mods)
 {
 	char *string_ptr;
 	char *null_str = "(null)"; /* print this if NULL */

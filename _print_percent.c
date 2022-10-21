@@ -30,11 +30,11 @@ void _long_to_hex_buff(unsigned long int long_num, char *bin_b, int num)
  * @arg_list: args list
  * @buffer: the ptr to a buffer
  * @buffer_i: index of buffer
- * @flags: flags to modify behaviour
+ * @mods: ptr of modifiers
  * Return: 1
  */
 int handle_percent_format(__attribute__((unused)) va_list arg_list,
-	char *buffer, int *buffer_i, __attribute__((unused)) Format_flag_t *flags)
+	char *buffer, int *buffer_i, __attribute__((unused)) Modifiers_t *mods)
 {
 	/* beffer */
 	add_to_buffer('%', buffer, buffer_i);
@@ -46,11 +46,11 @@ int handle_percent_format(__attribute__((unused)) va_list arg_list,
  * @arg_list: args list
  * @buffer: the ptr to a buffer
  * @buffer_i: index of buffer
- * @flags: flags to modify behaviour
+ * @mods: ptr of modifiers
  * Return: 1
  */
 int handle_pointer_format(__attribute__((unused)) va_list arg_list,
-	char *buffer, int *buffer_i, __attribute__((unused)) Format_flag_t *flags)
+	char *buffer, int *buffer_i, __attribute__((unused)) Modifiers_t *mods)
 {
 	unsigned long int addr;
 	unsigned int bytes, count = 0;

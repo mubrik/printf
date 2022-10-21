@@ -21,11 +21,11 @@ void _int_to_bin_buff(unsigned int integer, char *bin_b, int num)
  * @arg_list: args list
  * @buffer: the ptr to a buffer
  * @buffer_i: ptr to index of buffer
- * @flags: flags to modify behaviour
+ * @mods: ptr of modifiers
  * Return: count of chars added
  */
 int handle_bin_format(va_list arg_list, char *buffer,
-	int *buffer_i, __attribute__((unused)) Format_flag_t *flags)
+	int *buffer_i, __attribute__((unused)) Modifiers_t *mods)
 {
 	unsigned int num, count = 0, bytes;
 	char *bin_buffer, *cp_buff;

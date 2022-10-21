@@ -36,7 +36,7 @@ int main(void)
 	/* correct input capital S */
 	_printf("Testing Correct Input capital S: \n");
 	len = _printf("String:[%S]\n", "Best\nSchool");
-	printf("Length my printf: %d, Length orig printf: %d\n", len, len2);
+	printf("Length my printf: %d\n", len);
 	/* no input */
 	_printf("Testing no input: \n");
 	len = _printf("String:[%s]\n");

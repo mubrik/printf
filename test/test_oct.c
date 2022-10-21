@@ -22,8 +22,8 @@ int main(void)
 	printf("Length my printf: %d , Orig Printf len: %d \n", len, len2);
 	/* correct input */
 	_printf("Testing Correct Input INT_MAX with ## flag: \n");
-	len = _printf("Number:[%##o] & [%##o]\n", INT_MAX, INT_MAX);
-	len2 = printf("Number:[%##o] & [%##o]\n", INT_MAX, INT_MAX);
+	len = _printf("Number:[%#o] & [%#o]\n", INT_MAX, INT_MAX);
+	len2 = printf("Number:[%#o] & [%#o]\n", INT_MAX, INT_MAX);
 	printf("Length my printf: %d , Orig Printf len: %d \n", len, len2);
 	/* correct input */
 	_printf("Testing Correct Input 98: \n");

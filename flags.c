@@ -30,9 +30,9 @@ int is_flag_set(char flag, Format_flag_t *format_flag)
 	case '-':
 		return (format_flag->minus);
 	case ' ':
-		return (format_flag->minus);
+		return (format_flag->space);
 	case '#':
-		return (format_flag->minus);
+		return (format_flag->pound);
 	case '0':
 		return (format_flag->zero);
 	default:
@@ -86,4 +86,20 @@ Format_flag_t *reset_format_flag(Format_flag_t *format_flag)
 	format_flag->minus = 0, format_flag->zero = 0;
 	format_flag->plus = 0, format_flag->space = 0, format_flag->pound = 0;
 	return (format_flag);
+}
+
+/**
+ * is_mods_set - checks all mods if any was set
+ * @mods: tptr to modifiers
+ * Return: 1 if true, 0 else
+ */
+int is_mods_set(Modifiers_t *mods)
+{
+	if ((mods->precision) || (mods->width) || (mods->length->long_m) ||
+		(mods->length->short_m || (mods->flags->minus) || (mods->flags->plus)) ||
+		(mods->flags->pound) || (mods->flags->space) || (mods->flags->zero))
+	{
+		return (1);
+	}
+	return (0);
 }

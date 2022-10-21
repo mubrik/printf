@@ -70,7 +70,7 @@ int is_format_spec(const char *str, char *form_spec_buff,
 		}
 		else if (is_width_spec(str[count], str[count - 1], mods->width))
 		{
-			mods->width = atoi(&str[count]);
+			mods->width = str[count] - '0';
 			continue;
 		}
 		else if (is_prec_spec(str[count], str[count + 1], mods->precision))

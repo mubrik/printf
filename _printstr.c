@@ -46,7 +46,7 @@ int handle_str_format(va_list arg_list, char *buffer,
 {
 	char *string_ptr;
 	char *null_str = "(null)"; /* print this if NULL */
-	int count = 0;
+	int count = 0, left_just = 0, index = 0;
 
 	/* get argument from list */
 	string_ptr = va_arg(arg_list, char *);
@@ -59,9 +59,19 @@ int handle_str_format(va_list arg_list, char *buffer,
 		}
 		return (count);
 	}
+	if (mods->width && _strlen(string_ptr) < (mods->width))
+	{
+		if (mods->flags->minus)
+			left_just = (mods->width) - _strlen(string_ptr);
+		else
+			count += add_rep_buff(' ', buffer,
+				buffer_i, (mods->width) - _strlen(string_ptr));
+	}
 
-	while (string_ptr[count])
-		add_to_buffer(string_ptr[count], buffer, buffer_i), count++;
+	while (string_ptr[index])
+		add_to_buffer(string_ptr[index], buffer, buffer_i), count++, index++;
+	if (left_just)
+		count += add_rep_buff(' ', buffer, buffer_i, left_just);
 
 	return (count);
 }

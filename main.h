@@ -112,6 +112,8 @@ int is_prec_spec(char c, char next, int precision);
 int is_width_spec(char c, char prev, int width);
 int islmod(char c, int long_l, int short_s);
 int init_spec_chk(const char *str);
+unsigned int _strlen(char *src_ptr);
+int add_rep_buff(char c, char *buff, int *buf_i, unsigned int n);
 /* flag functions */
 int is_flag_set(char flag, Format_flag_t *format_flag);
 int is_flag_character(char c);

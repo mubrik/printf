@@ -11,11 +11,20 @@
 int handle_char_format(va_list arg_list, char *buffer,
 	int *buffer_i, __attribute__((unused)) Modifiers_t *mods)
 {
-	int str;
+	int str, left_just = 0, count = 0;
 	/* get str from list */
 	str = va_arg(arg_list, int);
+	if (mods->width > 1)
+	{
+		if (mods->flags->minus)
+			left_just = (mods->width - 1);
+		else
+			count += add_rep_buff(' ', buffer, buffer_i, (mods->width - 1));
+	}
 	/* beffer */
 	add_to_buffer(str, buffer, buffer_i);
+	if (left_just)
+		count += add_rep_buff(' ', buffer, buffer_i, left_just);
 
-	return (1);
+	return (1 + count);
 }

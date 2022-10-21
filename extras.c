@@ -99,7 +99,7 @@ int is_prec_spec(char c, char next, int precision)
  */
 int is_width_spec(char c, char prev, int width)
 {
-	if (is_number(c) && c != '0' && prev == '.' && !(width))
+	if (is_number(c) && c != '0' && prev != '.' && !(width))
 		return (1);
 	return (0);
 }

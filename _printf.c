@@ -42,7 +42,7 @@ int _printf(const char *format, ...)
 			add_to_buffer(format[index], pr_buff, buffer_i), count++;
 	}
 	print_buffer(pr_buff, *buffer_i), va_end(arg_list);
-	free_buff_mem(5, pr_buff, pr_mods->flags, pr_mods->length,
-		form_spec_buff, buffer_i);
+	free_buff_mem(6, pr_buff, pr_mods->flags, pr_mods->length,
+		form_spec_buff, buffer_i, pr_mods);
 	return (count);
 }
